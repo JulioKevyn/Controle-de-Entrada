@@ -45,7 +45,7 @@ computador e no WhatsApp decidindo o mês. Terça e quarta costumam ser melhores
 | Alterações | Nada de mexer nos 2 primeiros dias | igual |
 
 > **Link do site:** use o endereço da página inicial do Future PDV com marcação de origem, por exemplo
-> `https://SEU-SITE/?utm_source=instagram&utm_medium=anuncio&utm_campaign=pdv_out26_a`
+> `https://pdv-do-futuro.onrender.com/?utm_source=instagram&utm_medium=anuncio&utm_campaign=pdv_out26_a`
 > (troque `_a` por `_b` no anúncio B). O sistema ainda não grava essa origem, então a contagem de cadastros
 > será feita pelo **painel admin** (lojas novas criadas nos dias do anúncio) comparada aos cliques da Meta.
 
@@ -111,7 +111,16 @@ Boutique, Lojas de roupas · comportamento: Administradores de Páginas, Pequena
 **Descrição:** "7 dias grátis · sem cartão · sem fidelidade"
 
 **Link de destino:** página inicial do Future PDV (landing) com os parâmetros UTM da seção 2. Botão: **Cadastre-se**.
-(Se quiser encurtar o caminho, use o endereço `/register`; a landing explica melhor o produto, então é a recomendada para público frio.)
+**Links prontos (copiar e colar):**
+- Anúncio A: `https://pdv-do-futuro.onrender.com/?utm_source=instagram&utm_medium=anuncio&utm_campaign=pdv_out26_a`
+- Anúncio B: `https://pdv-do-futuro.onrender.com/?utm_source=instagram&utm_medium=anuncio&utm_campaign=pdv_out26_b`
+
+(Cadastro direto, se preferir encurtar o caminho: `https://pdv-do-futuro.onrender.com/auth/register?...` com os mesmos parâmetros.
+A página inicial explica melhor o produto, então é a recomendada para público frio.)
+
+**Antes de ligar (13/10):** o site está na hospedagem Render; em planos gratuitos ele "dorme" após um tempo sem acesso e a
+primeira visita pode demorar. Abra o link no celular na manhã de 13/10 (e se possível a cada manhã do teste) para garantir que carrega rápido.
+Testado em 07/10: a página inicial respondeu em cerca de 1 s.
 
 **Evite:** "lucro garantido", "venda mais X%", comparação com concorrentes. Depoimentos só dos 3 autorizados
 (Boutique Malu, Bella Store, Empório da Praça).
