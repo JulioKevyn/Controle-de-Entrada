@@ -1,7 +1,7 @@
 # Gera frames por cena e legendas (timing aproximado, proporcional à fala) a partir dos áudios.
 import json, math, re, subprocess, sys
 sys.path.insert(0, "scripts")
-ORDER = ["s1","s2","s3","s4","s5","s6","s7","s8","s9","sp","s10","s11","s12","s13"]
+ORDER = ["s1","s2","s3","s4","s5","s6","s7","s8","s9","sp","si","s10","s11","s12","s13"]
 src = open("scripts/vo.py", encoding="utf-8").read()
 LINES = {}
 for m in re.finditer(r'"(\w+)":\s*"((?:[^"\\]|\\.)*)"', src):

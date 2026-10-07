@@ -387,6 +387,45 @@ export const SCust: React.FC = () => {
   );
 };
 
+// 9c ---------- Integrações ----------
+const PLATS = [["TikTok Shop", C.pink, -420, -250], ["Nuvemshop", C.sky, 430, -230], ["Shopify", C.ok, -460, 220], ["+ outros", C.violet, 420, 240]] as const;
+export const SInt: React.FC = () => {
+  const frame = useCurrentFrame();
+  const hub = useSpring(10, "bouncy");
+  return (
+    <Scene>
+      <div style={{ position: "absolute", left: 130, top: 110 }}>
+        <AiBadge delay={4} />
+        <div style={{ marginTop: 20 }}><WordReveal text="Vende online também?" delay={10} size={68} highlight={["online"]} /></div>
+      </div>
+      <AbsoluteFill>
+        <svg width={1920} height={1080} style={{ position: "absolute", inset: 0 }}>
+          {PLATS.map(([n, c, dx, dy], i) => {
+            const p = interpolate(frame, [40 + i * 22, 70 + i * 22], [0, 1], { ...clamp, easing: theme.ease.out });
+            return (
+              <g key={n}>
+                <line x1={960} y1={640} x2={960 + dx * p} y2={640 + dy * p} stroke={c} strokeWidth={4} strokeLinecap="round" opacity={0.7} />
+                {p > 0.98 && <circle cx={960 + dx * (((frame * 0.03 + i * 0.25) % 1))} cy={640 + dy * (((frame * 0.03 + i * 0.25) % 1))} r={8} fill={c} />}
+              </g>
+            );
+          })}
+        </svg>
+        <div style={{ position: "absolute", left: 960 - 140, top: 640 - 140, width: 280, height: 280, borderRadius: 140, ...panel, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", rowGap: 6, transform: `scale(${hub * breathe(frame, 0.02)})`, boxShadow: `0 0 90px ${C.teal}66`, border: `2px solid ${C.teal}` }}>
+          <Mark size={90} />
+          <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: 30, color: C.text }}>Future <GradText>PDV</GradText></div>
+        </div>
+        {PLATS.map(([n, c, dx, dy], i) => {
+          const p = useSpring(60 + i * 22, "bouncy");
+          return (
+            <div key={n} style={{ position: "absolute", left: 960 + dx - 150, top: 640 + dy - 44, width: 300, height: 88, borderRadius: 24, ...panel, border: `2px solid ${c}`, boxShadow: `0 0 50px ${c}55`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F.display, fontSize: 30, color: C.text, opacity: Math.min(1, p), transform: `scale(${p}) translateY(${float(frame + i * 11, 6, 24)}px)` }}>{n}</div>
+          );
+        })}
+      </AbsoluteFill>
+      <div style={{ position: "absolute", left: 130, top: 250, opacity: Math.min(1, useSpring(150, "bouncy")) }}><Chip color={C.pink} size={26}>Plano Master IA</Chip></div>
+    </Scene>
+  );
+};
+
 // 10 ---------- Filiais ----------
 const BRANCH = ["Matriz", "Shopping", "Praia"];
 export const S10: React.FC = () => {
@@ -449,7 +488,7 @@ export const S11: React.FC = () => {
 const PLANS = [
   { n: "Básico", p: 100, f: ["PDV e controle de caixa", "Estoque por cor e tamanho", "Dashboard de BI", "Relatórios e auditoria"], hot: false },
   { n: "Pro", p: 150, f: ["Tudo do Básico", "Importar e exportar CSV", "Histórico de estoque", "Comissões por vendedor"], hot: false },
-  { n: "Master IA", p: 350, f: ["Tudo do Pro", "Chat com a IA da loja", "Insights e ranking preditivo", "Alertas no WhatsApp"], hot: true },
+  { n: "Master IA", p: 350, f: ["Tudo do Pro", "Chat com a IA da loja", "Insights e ranking preditivo", "Alertas no WhatsApp", "TikTok Shop, Nuvemshop e mais"], hot: true },
 ];
 export const S12: React.FC = () => {
   const frame = useCurrentFrame();
