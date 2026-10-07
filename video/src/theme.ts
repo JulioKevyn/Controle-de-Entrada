@@ -2,18 +2,20 @@ import { Easing } from "remotion";
 
 export const theme = {
   colors: {
-    bg: "#0B0A09",
-    bgAlt: "#17130F",
-    card: "#1C1713",
-    line: "rgba(255,255,255,0.08)",
-    primary: "#EE7500",
-    accent: "#38BDF8",
-    ok: "#34D399",
-    text: "#F5F1EC",
-    textDim: "#A8A29A",
-    glow: "rgba(238,117,0,0.45)",
+    // Brandbook Mundial Logistics 2024
+    bg: "#F7F7F7",
+    bgAlt: "#E6E6E6",
+    card: "#FFFFFF",
+    line: "rgba(35,31,32,0.10)",
+    primary: "#EC6707",
+    primary2: "#F39200",
+    accent: "#F39200",
+    ok: "#2F9E6E",
+    text: "#231F20",
+    textDim: "#6B6665",
+    glow: "rgba(236,103,7,0.22)",
   },
-  fonts: { display: "Sora, sans-serif", body: "Inter, sans-serif" },
+  fonts: { display: "Harabara, sans-serif", body: "'Source Sans Pro', sans-serif" },
   ease: {
     out: Easing.bezier(0.16, 1, 0.3, 1),
     inOut: Easing.bezier(0.83, 0, 0.17, 1),

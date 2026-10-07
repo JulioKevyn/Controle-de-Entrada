@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { Chip, Counter, Entrance, Label, Mark, Scene, WordReveal, breathe, float, useSpring } from "./components";
+import { Chip, Counter, OrangeCover, Entrance, Label, Mark, Scene, WordReveal, breathe, float, useSpring } from "./components";
 import { theme } from "./theme";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
@@ -11,25 +11,30 @@ const panel: React.CSSProperties = {
   background: C.card,
   border: `1px solid ${C.line}`,
   borderRadius: 28,
-  boxShadow: "0 40px 80px -20px rgba(0,0,0,0.6)",
+  boxShadow: "0 30px 60px -20px rgba(35,31,32,0.28)",
 };
 
 const CLIENTS = ["lg", "bayer", "heineken", "mondelez", "whirlpool", "danone", "diageo", "nivea", "opella", "unilever"];
 const NAMES = ["LG", "BAYER", "HEINEKEN", "MONDELEZ", "WHIRLPOOL", "DANONE", "DIAGEO", "NIVEA", "OPELLA", "UNILEVER"];
 
 // ---------- 1. Abertura ----------
+const Pill: React.FC<{ delay: number; children: React.ReactNode }> = ({ delay, children }) => (
+  <Entrance delay={delay} y={20}>
+    <div style={{ background: "#fff", color: C.primary, fontFamily: F.display, fontSize: 40, padding: "18px 56px", borderRadius: 999, boxShadow: "0 20px 40px -16px rgba(35,31,32,0.35)" }}>{children}</div>
+  </Entrance>
+);
+
 export const S1: React.FC = () => {
   const frame = useCurrentFrame();
   return (
     <Scene>
-      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 34 }}>
-        <Mark size={120} />
-        <div style={{ transform: `translateY(${float(frame, 3)}px)` }}>
-          <WordReveal text="Solicitação de Materiais" delay={36} size={140} align="center" highlight={["Materiais"]} />
+      <OrangeCover />
+      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 40 }}>
+        <Mark size={150} variant="white" shadow={false} />
+        <div style={{ transform: `translateY(${float(frame, 3)}px)`, marginTop: 10 }}>
+          <WordReveal text="Solicitação de Materiais" delay={30} size={132} align="center" highlight={["Materiais"]} color="#fff" hlColor={C.text} />
         </div>
-        <Entrance delay={78} y={20}>
-          <div style={{ fontFamily: F.body, fontSize: 36, color: C.textDim }}>Sistema de controle de pedidos e envios</div>
-        </Entrance>
+        <Pill delay={74}>Sistema de controle de pedidos e envios</Pill>
       </AbsoluteFill>
     </Scene>
   );
@@ -56,7 +61,7 @@ const SheetCard: React.FC<{ i: number; name: string }> = ({ i, name }) => {
       <div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 16, color: C.textDim, letterSpacing: "0.1em", marginBottom: 10 }}>{name}.xlsx</div>
       <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 5 }}>
         {Array.from({ length: cols * 5 }).map((_, k) => (
-          <div key={k} style={{ height: 12, borderRadius: 3, background: k < cols ? `${C.accent}55` : "rgba(255,255,255,0.09)" }} />
+          <div key={k} style={{ height: 12, borderRadius: 3, background: k < cols ? `${C.accent}88` : "rgba(35,31,32,0.09)" }} />
         ))}
       </div>
     </div>
@@ -69,7 +74,7 @@ export const S2: React.FC = () => (
       <Label>O desafio</Label>
       <div style={{ display: "flex", alignItems: "baseline", columnGap: 28, marginTop: 20 }}>
         <Entrance delay={8} cfg="snappy">
-          <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: 260, lineHeight: 1, letterSpacing: "-0.05em", color: C.primary, textShadow: `0 0 70px ${C.glow}` }}>
+          <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: 260, lineHeight: 1, letterSpacing: "0.01em", color: C.primary, textShadow: `0 8px 40px ${C.glow}` }}>
             <Counter to={10} delay={8} />
           </div>
         </Entrance>
@@ -105,19 +110,19 @@ export const S3: React.FC = () => {
         const col = i % 5, row = Math.floor(i / 5);
         return (
           <Entrance key={c} delay={24 + i * 4} y={50} style={{ position: "absolute", left: 150 + col * 330, top: 400 + row * 200, width: 300, height: 170 }}>
-            <div style={{ width: 300, height: 170, borderRadius: 24, background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", padding: 28, boxShadow: "0 24px 50px -16px rgba(0,0,0,0.6)", transform: `translateY(${float(frame + i * 11, 4, 28)}px)` }}>
+            <div style={{ width: 300, height: 170, borderRadius: 24, background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", padding: 28, boxShadow: "0 20px 40px -16px rgba(35,31,32,0.3)", border: `1px solid ${C.line}`, transform: `translateY(${float(frame + i * 11, 4, 28)}px)` }}>
               <Img src={staticFile(`logos/${c}.png`)} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
             </div>
           </Entrance>
         );
       })}
-      <AbsoluteFill style={{ background: `rgba(0,0,0,${dim})` }} />
+      <AbsoluteFill style={{ background: `rgba(35,31,32,${dim * 0.7})` }} />
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", opacity: modal * modalOut, transform: `scale(${interpolate(modal, [0, 1], [0.85, 1])})` }}>
-        <div style={{ ...panel, width: 620, padding: 48, textAlign: "center", boxShadow: `0 40px 100px rgba(0,0,0,0.7), 0 0 90px ${C.glow}` }}>
+        <div style={{ ...panel, width: 620, padding: 48, textAlign: "center", boxShadow: "0 40px 100px rgba(35,31,32,0.45)" }}>
           <div style={{ fontFamily: F.display, fontWeight: 700, fontSize: 38, color: C.text }}>Senha para LG</div>
-          <div style={{ margin: "32px 0", height: 74, borderRadius: 14, background: "#2a2a2a", border: `1px solid ${C.line}`, display: "flex", alignItems: "center", justifyContent: "center", columnGap: 16 }}>
+          <div style={{ margin: "32px 0", height: 74, borderRadius: 14, background: "#F0EEEC", border: `1px solid ${C.line}`, display: "flex", alignItems: "center", justifyContent: "center", columnGap: 16 }}>
             {Array.from({ length: 6 }).map((_, k) => (
-              <div key={k} style={{ width: 18, height: 18, borderRadius: 9, background: k < dots ? C.text : "rgba(255,255,255,0.12)" }} />
+              <div key={k} style={{ width: 18, height: 18, borderRadius: 9, background: k < dots ? C.text : "rgba(35,31,32,0.15)" }} />
             ))}
           </div>
           <div style={{ height: 56, display: "flex", justifyContent: "center", alignItems: "center", transform: `scale(${ok})`, opacity: ok }}>
@@ -205,7 +210,7 @@ export const S5: React.FC = () => {
         <Entrance delay={20} y={24} style={{ marginTop: 44 }}>
           <div style={{ ...panel, padding: 24, display: "flex", alignItems: "center", columnGap: 18, borderRadius: 20 }}>
             <span style={{ fontFamily: F.body, fontSize: 26, color: C.textDim }}>Filtrar base:</span>
-            <div style={{ flex: 1, height: 58, borderRadius: 12, background: "#2a2a2a", display: "flex", alignItems: "center", padding: "0 18px", fontFamily: F.body, fontSize: 28, color: C.text }}>
+            <div style={{ flex: 1, height: 58, borderRadius: 12, background: "#F0EEEC", display: "flex", alignItems: "center", padding: "0 18px", fontFamily: F.body, fontSize: 28, color: C.text }}>
               {typed}
               <span style={{ width: 2, height: 30, background: C.text, marginLeft: 3, opacity: Math.floor(frame / 8) % 2 }} />
             </div>
@@ -258,7 +263,7 @@ export const S6: React.FC = () => {
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
         <Entrance delay={6} y={60} style={{ width: 1160, transform: undefined }}>
           <div style={{ ...panel, width: 1160, overflow: "hidden", transform: `translate(${fly * 900}px, ${-fly * 500}px) scale(${1 - fly * 0.5}) rotate(${fly * 8}deg)`, opacity: 1 - fly, filter: `blur(${fly * 6}px)` }}>
-            <div style={{ height: 56, background: "#241d16", display: "flex", alignItems: "center", padding: "0 24px", columnGap: 10 }}>
+            <div style={{ height: 56, background: "#F0EEEC", display: "flex", alignItems: "center", padding: "0 24px", columnGap: 10 }}>
               {["#ff5f57", "#febc2e", "#28c840"].map((c) => <div key={c} style={{ width: 14, height: 14, borderRadius: 7, background: c }} />)}
               <span style={{ marginLeft: 20, fontFamily: F.body, fontSize: 22, color: C.textDim }}>Nova mensagem — Outlook</span>
             </div>
@@ -272,7 +277,7 @@ export const S6: React.FC = () => {
                 })}
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
-                <div style={{ padding: "16px 40px", borderRadius: 14, background: C.primary, color: "#fff", fontWeight: 600, fontSize: 28, transform: `scale(${press * breathe(frame, 0.012)})`, boxShadow: `0 0 50px ${C.glow}` }}>Confirmar Envio</div>
+                <div style={{ padding: "16px 40px", borderRadius: 14, background: C.primary, color: "#fff", fontWeight: 600, fontSize: 28, transform: `scale(${press * breathe(frame, 0.012)})`, boxShadow: `0 12px 30px ${C.glow}` }}>Confirmar Envio</div>
               </div>
             </div>
           </div>
@@ -304,13 +309,15 @@ export const S8: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const out = interpolate(frame, [durationInFrames - 14, durationInFrames - 1], [1, 0], { ...clamp, easing: theme.ease.in });
+  const o = useSpring(0, "smooth");
   return (
     <AbsoluteFill style={{ opacity: out }}>
-      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 34 }}>
-        <Mark size={170} />
-        <Entrance delay={24} y={20}>
-          <div style={{ fontFamily: F.display, fontWeight: 700, fontSize: 80, letterSpacing: "-0.02em", color: C.text, transform: `scale(${breathe(frame, 0.01)})` }}>Fazendo marcas <span style={{ color: C.primary, textShadow: `0 0 50px ${C.glow}` }}>venderem mais.</span></div>
-        </Entrance>
+      <AbsoluteFill style={{ opacity: o }}><OrangeCover /></AbsoluteFill>
+      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 44 }}>
+        <Mark size={170} variant="white" shadow={false} delay={4} />
+        <div style={{ transform: `scale(${breathe(frame, 0.008)})` }}>
+          <WordReveal text="Fazendo marcas venderem mais." delay={22} size={92} align="center" highlight={["venderem", "mais."]} color="#fff" hlColor={C.text} />
+        </div>
       </AbsoluteFill>
     </AbsoluteFill>
   );

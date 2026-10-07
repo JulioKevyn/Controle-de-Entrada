@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
-import { BgMesh, Grade, Grain, Vignette } from "./components";
+import { BgMesh, FooterBar, Grade, Grain, Mark, Vignette } from "./components";
 import { S1, S2, S3, S4, S5, S6, S7, S8 } from "./scenes";
 import { SCENES, STARTS, TOTAL } from "./theme";
 
@@ -9,6 +9,10 @@ const list = [S1, S2, S3, S4, S5, S6, S7, S8];
 export const Main: React.FC = () => (
   <AbsoluteFill>
     <BgMesh />
+    <FooterBar />
+    <Sequence from={STARTS[1]} durationInFrames={TOTAL - STARTS[1] - SCENES[7]}>
+      <div style={{ position: "absolute", right: 64, top: 44 }}><Mark size={96} shadow={false} /></div>
+    </Sequence>
     {list.map((S, i) => (
       <Sequence key={i} from={STARTS[i]} durationInFrames={SCENES[i]}>
         <S />
