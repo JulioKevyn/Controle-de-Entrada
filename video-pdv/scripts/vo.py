@@ -16,6 +16,7 @@ LINES = {
  "s12": "[confident] Comece com sete dias grátis, sem cartão. Escolha o Básico, o Pro, ou o Master I A, com toda a inteligência artificial.",
  "sp": "[excited] E ainda fica com a cara da sua marca! Escolha o logo, as cores e o tema, e o sistema inteiro muda para o estilo da sua loja.",
  "si": "[confident] Vende online também? No Master I A, o Future PDV se integra com TikTok Shop, Nuvemshop, Shopify e outros.",
+ "sh": "[excited] Sua loja sabe quanto realmente lucra? Conheça o Future PDV, com inteligência artificial! Venda em segundos, veja o lucro de verdade, e pergunte pra IA o que está parado. Alertas no WhatsApp e a cara da sua marca. Teste grátis por sete dias!",
  "s13": "[excited] Future PDV. Sua loja merece saber quanto realmente lucra. Teste grátis por sete dias!",
 }
 os.makedirs("public/audio", exist_ok=True)

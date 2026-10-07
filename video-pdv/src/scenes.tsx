@@ -1,32 +1,35 @@
 import React from "react";
 import { AbsoluteFill, interpolate, interpolateColors, useCurrentFrame } from "remotion";
-import { AiBadge, C, Chip, Counter, Entrance, F, GradText, Label, Mark, Scene, WordReveal, breathe, clamp, float, panel, useSpring } from "./components";
+import { AiBadge, C, Chip, Counter, Entrance, F, GradText, Label, Mark, Scene, WordReveal, breathe, clamp, float, panel, useSpring, useV } from "./components";
 import { theme } from "./theme";
 
 const typed = (text: string, frame: number, from: number, cps = 1.6) =>
   text.slice(0, Math.max(0, Math.min(text.length, Math.floor((frame - from) * cps))));
 
-const Left: React.FC<{ top?: number; width?: number; children: React.ReactNode }> = ({ top = 330, width = 700, children }) => (
-  <div style={{ position: "absolute", left: 130, top, width }}>{children}</div>
-);
-const Right: React.FC<{ top?: number; left?: number; width?: number; children: React.ReactNode; delay?: number }> = ({ top = 170, left = 900, width = 900, children, delay = 4 }) => (
-  <Entrance delay={delay} x={80} y={0} style={{ position: "absolute", left, top, width }}>{children}</Entrance>
-);
+const Left: React.FC<{ top?: number; width?: number; children: React.ReactNode }> = ({ top = 330, width = 700, children }) => {
+  const { V } = useV();
+  return <div style={{ position: "absolute", left: V ? 70 : 130, top: V ? 170 : top, width: V ? 940 : width }}>{children}</div>;
+};
+const Right: React.FC<{ top?: number; left?: number; width?: number; children: React.ReactNode; delay?: number }> = ({ top = 170, left = 900, width = 900, children, delay = 4 }) => {
+  const { V } = useV();
+  return <Entrance delay={delay} x={V ? 0 : 80} y={V ? 60 : 0} style={{ position: "absolute", left: V ? 60 : left, top: V ? 600 : top, width: V ? 960 : width }}>{children}</Entrance>;
+};
 
 // 1 ---------- Abertura ----------
 export const S1: React.FC = () => {
   const frame = useCurrentFrame();
+  const { V } = useV();
   return (
     <Scene>
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", rowGap: 34 }}>
         <Mark size={170} />
         <Entrance delay={16} y={30}>
-          <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: 150, letterSpacing: "-0.03em", lineHeight: 1, transform: `translateY(${float(frame, 3)}px)` }}>
+          <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: V ? 108 : 150, letterSpacing: "-0.03em", lineHeight: 1, transform: `translateY(${float(frame, 3)}px)` }}>
             <span style={{ color: C.text }}>Future </span><GradText>PDV</GradText>
           </div>
         </Entrance>
         <Entrance delay={34} y={20}>
-          <div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 38, color: C.muted }}>Vendas, estoque e gestão da sua loja na nuvem</div>
+          <div style={{ fontFamily: F.body, fontWeight: 600, fontSize: V ? 30 : 38, color: C.muted, textAlign: "center", padding: "0 40px" }}>Vendas, estoque e gestão da sua loja na nuvem</div>
         </Entrance>
         <div style={{ marginTop: 10 }}><AiBadge delay={56} big /></div>
       </AbsoluteFill>
@@ -43,6 +46,7 @@ const CHAOS = [
 ] as const;
 export const S2: React.FC = () => {
   const frame = useCurrentFrame();
+  const { V } = useV();
   const q = useSpring(150, "bouncy");
   const flick = Math.floor(frame / 5) % 3;
   return (
@@ -51,14 +55,15 @@ export const S2: React.FC = () => {
         <Label color={C.pink}>O problema</Label>
         <div style={{ marginTop: 18 }}><WordReveal text="No fim do mês, quanto sobrou?" delay={6} size={72} highlight={["sobrou?"]} /></div>
       </Left>
-      <div style={{ position: "absolute", left: 960, top: 190, width: 860, height: 700 }}>
-        {CHAOS.map(([t, r, x, y], i) => {
+      <div style={{ position: "absolute", left: V ? 70 : 960, top: V ? 700 : 190, width: V ? 940 : 860, height: 700 }}>
+        {CHAOS.map(([t, r, x0, y0], i) => {
+          const x = V ? [0, 380, 0, 300][i] : x0, y = V ? [0, 110, 230, 340][i] : y0;
           const p = useSpring(24 + i * 18, "bouncy");
           return (
             <div key={t} style={{ position: "absolute", left: x, top: y, ...panel, borderRadius: 18, padding: "22px 30px", fontFamily: F.body, fontWeight: 700, fontSize: 30, color: C.muted, opacity: Math.min(1, p), transform: `rotate(${r * p}deg) scale(${interpolate(p, [0, 1], [0.6, 1])}) translateY(${float(frame + i * 12, 6, 26)}px)`, whiteSpace: "nowrap" }}>{t}</div>
           );
         })}
-        <div style={{ position: "absolute", left: 60, top: 530, opacity: Math.min(1, q), transform: `scale(${interpolate(q, [0, 1], [0.5, 1])})` }}>
+        <div style={{ position: "absolute", left: V ? 40 : 60, top: V ? 480 : 530, opacity: Math.min(1, q), transform: `scale(${interpolate(q, [0, 1], [0.5, 1])})` }}>
           <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: 120, color: C.pink, textShadow: `0 0 60px ${C.pink}88` }}>R$ {["???", "?,?", "???"][flick]}</div>
         </div>
       </div>
@@ -287,14 +292,15 @@ const AIF = [
 ] as const;
 export const S9: React.FC = () => {
   const frame = useCurrentFrame();
+  const { V } = useV();
   const ph = useSpring(214, "smooth");
   return (
     <Scene>
-      <div style={{ position: "absolute", left: 130, top: 120 }}>
+      <div style={{ position: "absolute", left: V ? 70 : 130, top: V ? 150 : 120 }}>
         <AiBadge delay={2} />
         <div style={{ marginTop: 20 }}><WordReveal text="A IA trabalha por você." delay={8} size={64} highlight={["IA"]} /></div>
       </div>
-      <div style={{ position: "absolute", left: 130, top: 330, width: 1000 }}>
+      <div style={{ position: "absolute", left: V ? 70 : 130, top: V ? 470 : 330, width: V ? 940 : 1000 }}>
         {AIF.map(([t, d, at], i) => (
           <Entrance key={t} delay={at} y={30} style={{ marginBottom: 22 }}>
             <div style={{ ...panel, padding: "26px 34px", display: "flex", alignItems: "center", columnGap: 26, transform: `translateY(${float(frame + i * 14, 4, 28)}px)` }}>
@@ -304,8 +310,8 @@ export const S9: React.FC = () => {
           </Entrance>
         ))}
       </div>
-      <div style={{ position: "absolute", left: 1240, top: 190, width: 540, opacity: Math.min(1, ph), transform: `translateX(${interpolate(ph, [0, 1], [70, 0])}px) scale(${interpolate(ph, [0, 1], [0.92, 1])})` }}>
-        <div style={{ ...panel, borderRadius: 44, padding: "28px 26px", minHeight: 720, border: `2px solid ${C.line}` }}>
+      <div style={{ position: "absolute", left: V ? 270 : 1240, top: V ? 1060 : 190, width: 540, opacity: Math.min(1, ph), transform: `translateX(${interpolate(ph, [0, 1], [70, 0])}px) scale(${interpolate(ph, [0, 1], [0.92, 1])})` }}>
+        <div style={{ ...panel, borderRadius: 44, padding: "28px 26px", minHeight: V ? 600 : 720, border: `2px solid ${C.line}` }}>
           <div style={{ display: "flex", alignItems: "center", columnGap: 12, paddingBottom: 16, marginBottom: 18, borderBottom: `1px solid ${C.line}`, fontFamily: F.body, fontWeight: 800, fontSize: 26, color: C.ok }}>● WhatsApp · Future PDV</div>
           {[["Resumo do dia: 38 vendas, ticket médio em alta. ✦", 236], ["⚠ Estoque baixo: Camiseta Branca G (1 un.)", 270], ["Qual produto está parado?", 304, true]].map(([t, at, me]) => (
             <div key={t as string} style={{ display: "flex", justifyContent: me ? "flex-end" : "flex-start", marginBottom: 16, opacity: Math.min(1, Math.max(0, (frame - (at as number)) / 8)), transform: `translateY(${interpolate(frame, [(at as number), (at as number) + 10], [16, 0], clamp)}px)` }}>
@@ -391,37 +397,39 @@ export const SCust: React.FC = () => {
 const PLATS = [["TikTok Shop", C.pink, -420, -250], ["Nuvemshop", C.sky, 430, -230], ["Shopify", C.ok, -460, 220], ["+ outros", C.violet, 420, 240]] as const;
 export const SInt: React.FC = () => {
   const frame = useCurrentFrame();
+  const { V } = useV();
+  const CX = V ? 540 : 960, CY = V ? 1060 : 640, KX = V ? 0.62 : 1, KY = V ? 1.15 : 1;
   const hub = useSpring(10, "bouncy");
   return (
     <Scene>
-      <div style={{ position: "absolute", left: 130, top: 110 }}>
+      <div style={{ position: "absolute", left: V ? 70 : 130, top: V ? 150 : 110 }}>
         <AiBadge delay={4} />
         <div style={{ marginTop: 20 }}><WordReveal text="Vende online também?" delay={10} size={68} highlight={["online"]} /></div>
       </div>
       <AbsoluteFill>
-        <svg width={1920} height={1080} style={{ position: "absolute", inset: 0 }}>
+        <svg width={V ? 1080 : 1920} height={V ? 1920 : 1080} style={{ position: "absolute", inset: 0 }}>
           {PLATS.map(([n, c, dx, dy], i) => {
             const p = interpolate(frame, [40 + i * 22, 70 + i * 22], [0, 1], { ...clamp, easing: theme.ease.out });
             return (
               <g key={n}>
-                <line x1={960} y1={640} x2={960 + dx * p} y2={640 + dy * p} stroke={c} strokeWidth={4} strokeLinecap="round" opacity={0.7} />
-                {p > 0.98 && <circle cx={960 + dx * (((frame * 0.03 + i * 0.25) % 1))} cy={640 + dy * (((frame * 0.03 + i * 0.25) % 1))} r={8} fill={c} />}
+                <line x1={CX} y1={CY} x2={CX + dx * KX * p} y2={CY + dy * KY * p} stroke={c} strokeWidth={4} strokeLinecap="round" opacity={0.7} />
+                {p > 0.98 && <circle cx={CX + dx * KX * (((frame * 0.03 + i * 0.25) % 1))} cy={CY + dy * KY * (((frame * 0.03 + i * 0.25) % 1))} r={8} fill={c} />}
               </g>
             );
           })}
         </svg>
-        <div style={{ position: "absolute", left: 960 - 140, top: 640 - 140, width: 280, height: 280, borderRadius: 140, ...panel, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", rowGap: 6, transform: `scale(${hub * breathe(frame, 0.02)})`, boxShadow: `0 0 90px ${C.teal}66`, border: `2px solid ${C.teal}` }}>
+        <div style={{ position: "absolute", left: CX - 140, top: CY - 140, width: 280, height: 280, borderRadius: 140, ...panel, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", rowGap: 6, transform: `scale(${hub * breathe(frame, 0.02)})`, boxShadow: `0 0 90px ${C.teal}66`, border: `2px solid ${C.teal}` }}>
           <Mark size={90} />
           <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: 30, color: C.text }}>Future <GradText>PDV</GradText></div>
         </div>
         {PLATS.map(([n, c, dx, dy], i) => {
           const p = useSpring(60 + i * 22, "bouncy");
           return (
-            <div key={n} style={{ position: "absolute", left: 960 + dx - 150, top: 640 + dy - 44, width: 300, height: 88, borderRadius: 24, ...panel, border: `2px solid ${c}`, boxShadow: `0 0 50px ${c}55`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F.display, fontSize: 30, color: C.text, opacity: Math.min(1, p), transform: `scale(${p}) translateY(${float(frame + i * 11, 6, 24)}px)` }}>{n}</div>
+            <div key={n} style={{ position: "absolute", left: CX + dx * KX - 150, top: CY + dy * KY - 44, width: 300, height: 88, borderRadius: 24, ...panel, border: `2px solid ${c}`, boxShadow: `0 0 50px ${c}55`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F.display, fontSize: 30, color: C.text, opacity: Math.min(1, p), transform: `scale(${p}) translateY(${float(frame + i * 11, 6, 24)}px)` }}>{n}</div>
           );
         })}
       </AbsoluteFill>
-      <div style={{ position: "absolute", left: 130, top: 250, opacity: Math.min(1, useSpring(150, "bouncy")) }}><Chip color={C.pink} size={26}>Plano Master IA</Chip></div>
+      <div style={{ position: "absolute", left: V ? 70 : 130, top: V ? 440 : 250, opacity: Math.min(1, useSpring(150, "bouncy")) }}><Chip color={C.pink} size={26}>Plano Master IA</Chip></div>
     </Scene>
   );
 };
@@ -467,12 +475,13 @@ const QUOTES = [
 ];
 export const S11: React.FC = () => {
   const frame = useCurrentFrame();
+  const { V } = useV();
   return (
     <Scene>
-      <div style={{ position: "absolute", left: 130, top: 110 }}><Label>Quem usa</Label><div style={{ marginTop: 14 }}><WordReveal text="Aprovado por lojistas." delay={6} size={68} highlight={["lojistas."]} /></div></div>
+      <div style={{ position: "absolute", left: V ? 70 : 130, top: V ? 150 : 110 }}><Label>Quem usa</Label><div style={{ marginTop: 14 }}><WordReveal text="Aprovado por lojistas." delay={6} size={68} highlight={["lojistas."]} /></div></div>
       {QUOTES.map(([n, q], i) => (
-        <Entrance key={n} delay={30 + i * 22} y={50} style={{ position: "absolute", left: 130 + i * 596, top: 340, width: 570 }}>
-          <div style={{ ...panel, padding: "34px 34px", minHeight: 470, transform: `translateY(${float(frame + i * 15, 5, 28)}px)` }}>
+        <Entrance key={n} delay={30 + i * 22} y={50} style={{ position: "absolute", left: V ? 70 : 130 + i * 596, top: V ? 440 + i * 400 : 340, width: V ? 940 : 570 }}>
+          <div style={{ ...panel, padding: "28px 34px", minHeight: V ? 0 : 470, transform: `translateY(${float(frame + i * 15, 5, 28)}px)` }}>
             <div style={{ color: C.warn, fontSize: 32, letterSpacing: 4 }}>★★★★★</div>
             <div style={{ marginTop: 18, fontFamily: F.body, fontWeight: 600, fontSize: 30, lineHeight: 1.45, color: C.text }}>“{q}”</div>
             <div style={{ marginTop: 26, fontFamily: F.display, fontSize: 26, color: C.teal }}>{n}</div>
@@ -492,13 +501,14 @@ const PLANS = [
 ];
 export const S12: React.FC = () => {
   const frame = useCurrentFrame();
+  const { V } = useV();
   const free = useSpring(150, "bouncy");
   return (
     <Scene>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 90, display: "flex", justifyContent: "center" }}><WordReveal text="Comece grátis. Cresça quando quiser." delay={4} size={56} align="center" highlight={["grátis."]} /></div>
+      <div style={{ position: "absolute", left: 40, right: 40, top: V ? 140 : 90, display: "flex", justifyContent: "center" }}><WordReveal text="Comece grátis. Cresça quando quiser." delay={4} size={V ? 52 : 56} align="center" highlight={["grátis."]} /></div>
       {PLANS.map((pl, i) => (
-        <Entrance key={pl.n} delay={20 + i * 14} y={60} style={{ position: "absolute", left: 130 + i * 600, top: pl.hot ? 250 : 290, width: 540 }}>
-          <div style={{ ...panel, padding: "36px 36px", minHeight: pl.hot ? 600 : 540, border: `2px solid ${pl.hot ? C.pink : C.line}`, boxShadow: pl.hot ? `0 0 70px ${C.pink}55` : undefined, transform: `scale(${pl.hot ? breathe(frame, 0.008) : 1})` }}>
+        <Entrance key={pl.n} delay={20 + i * 14} y={60} style={{ position: "absolute", left: V ? 70 : 130 + i * 600, top: V ? 330 + i * 470 : (pl.hot ? 250 : 290), width: V ? 940 : 540 }}>
+          <div style={{ ...panel, padding: V ? "24px 36px" : "36px 36px", minHeight: V ? 0 : (pl.hot ? 600 : 540), border: `2px solid ${pl.hot ? C.pink : C.line}`, boxShadow: pl.hot ? `0 0 70px ${C.pink}55` : undefined, transform: `scale(${pl.hot ? breathe(frame, 0.008) : 1})` }}>
             {pl.hot ? <AiBadge delay={50} /> : <div style={{ height: 40 }} />}
             <div style={{ fontFamily: F.display, fontSize: 40, color: C.text, marginTop: 14 }}>{pl.n}</div>
             <div style={{ display: "flex", alignItems: "baseline", columnGap: 8, margin: "10px 0 22px" }}>
@@ -510,7 +520,7 @@ export const S12: React.FC = () => {
           </div>
         </Entrance>
       ))}
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 150, display: "flex", justifyContent: "center", opacity: Math.min(1, free), transform: `scale(${free})` }}><Chip color={C.ok} size={30}>7 dias grátis · sem cartão · sem fidelidade</Chip></div>
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: V ? 230 : 150, display: "flex", justifyContent: "center", opacity: Math.min(1, free), transform: `scale(${free})` }}><Chip color={C.ok} size={30}>7 dias grátis · sem cartão · sem fidelidade</Chip></div>
     </Scene>
   );
 };
@@ -526,7 +536,7 @@ export const S13: React.FC = () => {
         <WordReveal text="Sua loja merece saber quanto realmente lucra." delay={14} size={70} align="center" highlight={["lucra."]} />
         <div style={{ opacity: Math.min(1, btn), transform: `scale(${btn * breathe(frame, 0.012)})`, padding: "22px 60px", borderRadius: 999, background: theme.grad, color: C.bg, fontFamily: F.display, fontWeight: 800, fontSize: 40, boxShadow: `0 20px 60px -10px ${C.teal}88` }}>Testar 7 dias grátis</div>
         <Entrance delay={150} y={20}><AiBadge big /></Entrance>
-        <Entrance delay={170} y={20}><div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 28, color: C.muted }}>Future PDV · desenvolvido por Julio Clemente · (11) 96620-9914</div></Entrance>
+        <Entrance delay={170} y={20}><div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 28, color: C.muted, textAlign: "center", maxWidth: 940 }}>Future PDV · desenvolvido por Julio Clemente · (11) 96620-9914</div></Entrance>
       </AbsoluteFill>
     </Scene>
   );

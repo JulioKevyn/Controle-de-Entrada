@@ -14,6 +14,7 @@ if (typeof document !== "undefined") {
   });
 }
 
+export const useV = () => { const { width, height } = useVideoConfig(); return { V: height > width, w: width, h: height }; };
 export const C = theme.colors;
 export const F = theme.fonts;
 export const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
@@ -99,13 +100,14 @@ export const Scene: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 // Partículas / brilhos flutuando (determinístico)
 export const Sparkles: React.FC = () => {
   const frame = useCurrentFrame();
+  const { w, h } = useV();
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
       {Array.from({ length: 34 }).map((_, i) => {
         const rnd = (n: number) => { const v = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return v - Math.floor(v); };
-        const x = rnd(i + 1) * 1900;
+        const x = rnd(i + 1) * (w - 20);
         const speed = 0.35 + ((i * 37) % 10) / 14;
-        const y = 1160 - ((frame * speed * 1.6 + rnd(i + 50) * 1260) % 1260);
+        const y = h + 80 - ((frame * speed * 1.6 + rnd(i + 50) * (h + 180)) % (h + 180));
         const tw = 0.35 + 0.65 * Math.abs(Math.sin(frame / (14 + (i % 7)) + i));
         const size = 3 + (i % 4) * 2;
         const col = [C.teal, C.sky, C.pink, C.violet][i % 4];
@@ -119,14 +121,15 @@ export const Sparkles: React.FC = () => {
 export const Captions: React.FC<{ chunks: { t: string; a: number; b: number }[] }> = ({ chunks }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const { V } = useV();
   const t = frame / fps;
   const idx = chunks.findIndex((c) => t >= c.a && t < c.b);
   if (idx < 0) return null;
   const c = chunks[idx];
   const p = spring({ frame: frame - Math.round(c.a * fps), fps, config: theme.spring.snappy });
   return (
-    <div style={{ position: "absolute", left: 0, right: 0, bottom: 34, display: "flex", justifyContent: "center", opacity: Math.min(1, p), transform: `translateY(${interpolate(p, [0, 1], [18, 0])}px) scale(${interpolate(p, [0, 1], [0.94, 1])})` }}>
-      <div style={{ padding: "12px 34px", borderRadius: 22, background: "rgba(7,11,22,0.72)", border: `1px solid ${C.line}`, backdropFilter: "blur(10px)", fontFamily: F.display, fontWeight: 700, fontSize: 40, color: C.text, letterSpacing: "-0.01em", textShadow: "0 2px 18px rgba(0,0,0,0.6)", whiteSpace: "nowrap" }}>{c.t}</div>
+    <div style={{ position: "absolute", left: 0, right: 0, bottom: V ? 120 : 34, display: "flex", justifyContent: "center", opacity: Math.min(1, p), transform: `translateY(${interpolate(p, [0, 1], [18, 0])}px) scale(${interpolate(p, [0, 1], [0.94, 1])})` }}>
+      <div style={{ padding: "12px 34px", borderRadius: 22, background: "rgba(7,11,22,0.72)", border: `1px solid ${C.line}`, backdropFilter: "blur(10px)", fontFamily: F.display, fontWeight: 700, fontSize: V ? 40 : 40, color: C.text, letterSpacing: "-0.01em", textShadow: "0 2px 18px rgba(0,0,0,0.6)", whiteSpace: V ? "normal" : "nowrap", maxWidth: V ? 980 : undefined, textAlign: "center", lineHeight: 1.2 }}>{c.t}</div>
     </div>
   );
 };
