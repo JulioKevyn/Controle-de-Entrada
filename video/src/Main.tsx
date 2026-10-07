@@ -1,10 +1,10 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
 import { BgMesh, FooterBar, Grade, Grain, Mark, Vignette } from "./components";
-import { S1, S2, S3, S4, S5V, S5, S6, S8A, S7, S8 } from "./scenes";
+import { S1, S2, S3, S4, S5V, S5, S6, S8A, S7, S10R, S8 } from "./scenes";
 import { SCENES, STARTS, TOTAL } from "./theme";
 
-const list = [S1, S2, S3, S4, S5V, S5, S6, S8A, S7, S8];
+const list = [S1, S2, S3, S4, S5V, S5, S6, S8A, S7, S10R, S8];
 
 export const Main: React.FC = () => (
   <AbsoluteFill>

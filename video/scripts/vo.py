@@ -11,7 +11,8 @@ LINES = {
  "s7": "[confident] Validado o pedido, nasce o pacote e a planilha de orçamento. O time preenche as modalidades de frete, anexa o PDF, e o cliente recebe um e-mail com o valor.",
  "s8": "[confident] O cliente compara as modalidades no portal, e aprova ou recusa, informando o motivo. Custos extras e manuseio tabelado entram no mesmo fluxo.",
  "s9": "[excited] Aprovado, a operação assume: distribuição de materiais, romaneios, coletas, retiradas agendadas pelo WhatsApp, descarte e alertas de vencimento. Tudo no mesmo portal.",
- "s10": "[excited] Mundial Logística. Fazendo marcas venderem mais!",
+ "s10": "[excited] E os resultados? O que levava quatro horas e trinta minutos, agora leva vinte e sete. Uma redução de noventa por cento. Já são mais de mil e novecentos pacotes, com mais de vinte e sete mil destinos.",
+ "s11": "[excited] Mundial Logística. Fazendo marcas venderem mais!",
 }
 os.makedirs("public/audio", exist_ok=True)
 for k, t in LINES.items():

@@ -152,7 +152,7 @@ export const Counter: React.FC<{ to: number; delay?: number; style?: React.CSSPr
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const p = spring({ frame: frame - delay, fps, config: { damping: 30, stiffness: 60 } });
-  return <span style={{ fontVariantNumeric: "tabular-nums", ...style }}>{Math.round(interpolate(p, [0, 1], [0, to]))}</span>;
+  return <span style={{ fontVariantNumeric: "tabular-nums", ...style }}>{Math.round(interpolate(p, [0, 1], [0, to])).toLocaleString("pt-BR")}</span>;
 };
 
 export const breathe = (frame: number, amp = 0.015, speed = 22) => 1 + Math.sin(frame / speed) * amp;

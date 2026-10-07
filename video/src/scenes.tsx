@@ -435,7 +435,59 @@ export const S7: React.FC = () => {
   );
 };
 
-// ---------- 10. Encerramento ----------
+// ---------- 10. Resultados ----------
+const BarRow: React.FC<{ label: string; from: number; w: number; color: string; text: string; sub: string }> = ({ label, from, w, color, text, sub }) => {
+  const frame = useCurrentFrame();
+  const grow = interpolate(frame, [from, from + 36], [0, 1], { ...clamp, easing: theme.ease.inOut });
+  const t = useSpring(from + 30, "bouncy");
+  return (
+    <div style={{ marginBottom: 34 }}>
+      <div style={{ fontFamily: F.body, fontWeight: 700, fontSize: 24, letterSpacing: "0.14em", textTransform: "uppercase", color: C.textDim, marginBottom: 10, opacity: Math.min(1, grow * 4) }}>{label}</div>
+      <div style={{ display: "flex", alignItems: "center", columnGap: 26 }}>
+        <div style={{ height: 78, width: Math.max(0.001, w * grow), borderRadius: 16, background: color, boxShadow: color === C.primary ? `0 14px 34px -10px ${C.primary}` : undefined }} />
+        <div style={{ opacity: t, transform: `scale(${interpolate(t, [0, 1], [0.7, 1])})`, transformOrigin: "left center", whiteSpace: "nowrap" }}>
+          <div style={{ fontFamily: F.display, fontSize: 60, lineHeight: 1, color: C.text }}>{text}</div>
+          <div style={{ fontFamily: F.body, fontSize: 22, color: C.textDim, marginTop: 4 }}>{sub}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const S10R: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pct = useSpring(214, "bouncy");
+  return (
+    <Scene>
+      <div style={{ position: "absolute", left: 130, top: 120 }}>
+        <Label>Resultados</Label>
+        <div style={{ marginTop: 14 }}>
+          <WordReveal text="Menos tempo. Mais pedidos." delay={6} size={72} highlight={["Mais", "pedidos."]} />
+        </div>
+      </div>
+      <div style={{ position: "absolute", left: 130, top: 340, width: 1130 }}>
+        <BarRow label="Antes" from={58} w={640} color="#B9B3AE" text="4h 30min" sub="processo manual" />
+        <BarRow label="Agora" from={142} w={64} color={C.primary} text="27 min" sub="com a ferramenta" />
+      </div>
+      <div style={{ position: "absolute", left: 1330, top: 330, width: 470, textAlign: "center", opacity: Math.min(1, pct), transform: `scale(${interpolate(pct, [0, 1], [0.6, 1])})` }}>
+        <div style={{ fontFamily: F.display, fontSize: 210, lineHeight: 1, color: C.primary, textShadow: `0 10px 50px ${C.glow}` }}>−90%</div>
+        <div style={{ fontFamily: F.display, fontSize: 40, color: C.text, marginTop: 10 }}>no tempo do processo</div>
+      </div>
+      {[["pacotes", 1904, 291], ["destinos", 27787, 322]].map(([l, n, d], i) => (
+        <Entrance key={l as string} delay={d as number} y={40} style={{ position: "absolute", left: 130 + i * 640, top: 760 }}>
+          <div style={{ ...panel, padding: "26px 36px", display: "flex", alignItems: "baseline", columnGap: 20, whiteSpace: "nowrap", transform: `translateY(${float(frame + i * 14, 4, 28)}px)` }}>
+            <div style={{ fontFamily: F.display, fontSize: 84, lineHeight: 1, color: C.text, fontVariantNumeric: "tabular-nums" }}>
+              <Counter to={n as number} delay={d as number} />
+            </div>
+            <div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 32, color: C.textDim, whiteSpace: "nowrap" }}>{l} processados</div>
+          </div>
+        </Entrance>
+      ))}
+    </Scene>
+  );
+};
+
+// ---------- 11. Encerramento ----------
 export const S8: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
