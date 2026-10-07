@@ -43,9 +43,9 @@ const SHEETS = ["NIVEA", "DANONE", "BAYER", "MONDELEZ", "PERNOD RICARD", "OUTROS
 const SheetCard: React.FC<{ i: number; name: string }> = ({ i, name }) => {
   const frame = useCurrentFrame();
   const p = useSpring(18 + i * 6, "bouncy");
-  const bad = useSpring(150 + i * 12, "bouncy");
+  const bad = useSpring(233 + i * 8, "bouncy");
   const rot = ((i * 37) % 13) - 6;
-  const pos = [[0, 0], [310, 30], [620, 0], [100, 230], [410, 250], [720, 240]][i];
+  const pos = [[0, 0], [300, 30], [600, 0], [60, 230], [360, 250], [660, 240]][i];
   const cols = 3 + (i % 3);
   return (
     <div style={{ position: "absolute", left: pos[0], top: pos[1], width: 250, height: 170, ...panel, borderRadius: 16, padding: 14, opacity: p, transform: `translateY(${float(frame + i * 9, 6, 26)}px) rotate(${rot * p}deg) scale(${interpolate(p, [0, 1], [0.6, 1])})` }}>
@@ -60,24 +60,30 @@ const SheetCard: React.FC<{ i: number; name: string }> = ({ i, name }) => {
   );
 };
 
+const BigStat: React.FC<{ to: number; plus?: boolean; label: string; delay: number }> = ({ to, plus, label, delay }) => (
+  <Entrance delay={delay} y={40} cfg="snappy">
+    <div style={{ display: "flex", alignItems: "baseline", columnGap: 22 }}>
+      <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: 190, lineHeight: 1, color: C.primary, textShadow: `0 8px 40px ${C.glow}` }}>
+        {plus ? "+" : ""}<Counter to={to} delay={delay} />
+      </div>
+      <div style={{ fontFamily: F.display, fontSize: 56, color: C.text }}>{label}</div>
+    </div>
+  </Entrance>
+);
+
 export const S2: React.FC = () => (
   <Scene>
-    <div style={{ position: "absolute", left: 130, top: 250, width: 760 }}>
+    <div style={{ position: "absolute", left: 130, top: 190, width: 800 }}>
       <Label>O desafio</Label>
       <div style={{ marginTop: 20 }}>
-        <WordReveal text="Um layout para cada cliente." delay={6} size={84} highlight={["cada", "cliente."]} />
+        <WordReveal text="Cada cliente, um jeito de enviar." delay={6} size={72} highlight={["jeito"]} />
       </div>
-      <div style={{ marginTop: 44, display: "flex", flexDirection: "column", rowGap: 18 }}>
-        {["CNPJ está ativo?", "O endereço confere?", "Tem estoque?"].map((t, i) => (
-          <Entrance key={t} delay={120 + i * 40} x={-30} y={0} style={{ alignSelf: "flex-start" }}>
-            <div style={{ ...panel, borderRadius: 18, padding: "16px 32px", fontFamily: F.body, fontWeight: 600, fontSize: 36, color: C.text, display: "flex", alignItems: "center", columnGap: 18 }}>
-              <span style={{ color: C.primary, fontFamily: F.display, fontSize: 40 }}>?</span>{t}
-            </div>
-          </Entrance>
-        ))}
+      <div style={{ marginTop: 50, display: "flex", flexDirection: "column", rowGap: 14 }}>
+        <BigStat to={16} label="layouts" delay={100} />
+        <BigStat to={100} plus label="depositantes" delay={170} />
       </div>
     </div>
-    <div style={{ position: "absolute", left: 900, top: 270, width: 960, height: 520 }}>
+    <div style={{ position: "absolute", left: 960, top: 270, width: 960, height: 520 }}>
       {SHEETS.map((n, i) => <SheetCard key={n} i={i} name={n} />)}
     </div>
   </Scene>
@@ -97,11 +103,12 @@ const Input: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
 
 export const S3: React.FC = () => {
   const frame = useCurrentFrame();
-  const sel = frame > 50 ? 0 : -1;
+  const sel = frame > 70 ? 0 : -1;
   const client = "Nivea";
-  const typed = client.slice(0, Math.floor(interpolate(frame, [80, 105], [0, client.length + 0.99], clamp)));
-  const prog = interpolate(frame, [130, 175], [0, 1], { ...clamp, easing: theme.ease.inOut });
-  const det = useSpring(185, "bouncy");
+  const typed = client.slice(0, Math.floor(interpolate(frame, [95, 120], [0, client.length + 0.99], clamp)));
+  const prog = interpolate(frame, [130, 168], [0, 1], { ...clamp, easing: theme.ease.inOut });
+  const det = useSpring(178, "bouncy");
+  const sso = useSpring(14, "bouncy");
   return (
     <Scene>
       <div style={{ position: "absolute", left: 130, top: 330, width: 640 }}>
@@ -111,21 +118,28 @@ export const S3: React.FC = () => {
         </div>
       </div>
       <Entrance delay={4} x={80} y={0} style={{ position: "absolute", left: 860, top: 170, width: 940 }}>
-        <div style={{ ...panel, padding: "40px 44px", display: "flex", flexDirection: "column", rowGap: 30 }}>
-          <Field label="Finalidade da solicitação" delay={14}>
+        <div style={{ ...panel, padding: "36px 44px", display: "flex", flexDirection: "column", rowGap: 26 }}>
+          <div style={{ display: "flex", alignItems: "center", columnGap: 16, opacity: sso, transform: `scale(${interpolate(sso, [0, 1], [0.9, 1])})`, transformOrigin: "left center" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3, width: 34, height: 34 }}>
+              {["#F25022", "#7FBA00", "#00A4EF", "#FFB900"].map((c) => <div key={c} style={{ background: c }} />)}
+            </div>
+            <span style={{ fontFamily: F.body, fontWeight: 600, fontSize: 28, color: C.text }}>Entrou com a conta Microsoft</span>
+            <Chip color={C.ok}>✓ Acesso por perfil</Chip>
+          </div>
+          <Field label="Finalidade da solicitação" delay={34}>
             <div style={{ display: "flex", columnGap: 12 }}>
               {FINALIDADES.map((f, i) => (
                 <div key={f} style={{ flex: 1, height: 70, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F.body, fontWeight: 700, fontSize: 23, color: i === sel ? "#fff" : C.text, background: i === sel ? C.primary : "#F0EEEC", border: `1px solid ${i === sel ? C.primary : C.line}`, boxShadow: i === sel ? `0 12px 24px -10px ${C.primary}` : undefined }}>{f}</div>
               ))}
             </div>
           </Field>
-          <Field label="Cliente / Depositante" delay={34}>
+          <Field label="Cliente / Depositante" delay={60}>
             <Input>
-              <span>{typed}<span style={{ display: "inline-block", width: 2, height: 30, background: C.text, marginLeft: 3, verticalAlign: "middle", opacity: frame < 108 ? Math.floor(frame / 8) % 2 : 0 }} /></span>
+              <span>{typed}<span style={{ display: "inline-block", width: 2, height: 30, background: C.text, marginLeft: 3, verticalAlign: "middle", opacity: frame < 123 ? Math.floor(frame / 8) % 2 : 0 }} /></span>
               <span style={{ color: C.textDim }}>⌄</span>
             </Input>
           </Field>
-          <Field label="Planilha do pedido" delay={54}>
+          <Field label="Planilha do pedido" delay={90}>
             <Input>
               <span>pedido_nivea.xlsx</span>
               <div style={{ width: 220, height: 10, borderRadius: 5, background: "rgba(35,31,32,0.1)", overflow: "hidden" }}>
@@ -144,17 +158,17 @@ export const S3: React.FC = () => {
 
 // ---------- 4. Validação antecipada ----------
 const STEPS = [
-  { t: "Identificar cliente / template", at: 40 },
-  { t: "Extrair dados da planilha", at: 90 },
-  { t: "Validar CNPJ/CPF na Receita Federal", at: 140 },
-  { t: "Validar cadastro, endereço e estoque", at: 200 },
-  { t: "Gerar orçamento / grade", at: 255 },
+  { t: "Identificar cliente / template", at: 30 },
+  { t: "Extrair dados da planilha", at: 65 },
+  { t: "Validar CNPJ/CPF na Receita Federal", at: 100 },
+  { t: "Validar cadastro, endereço e estoque", at: 140 },
+  { t: "Gerar orçamento / grade", at: 185 },
 ];
 export const S4: React.FC = () => {
   const frame = useCurrentFrame();
   const done = STEPS.filter((s) => frame >= s.at).length;
-  const pct = interpolate(frame, [20, 260], [0, 1], clamp);
-  const note = useSpring(270, "bouncy");
+  const pct = interpolate(frame, [20, 190], [0, 1], clamp);
+  const note = useSpring(150, "bouncy");
   return (
     <Scene>
       <div style={{ position: "absolute", left: 130, top: 300, width: 700 }}>
@@ -191,7 +205,51 @@ export const S4: React.FC = () => {
   );
 };
 
-// ---------- 5. Correção guiada ----------
+// ---------- 5. Quatro conferências ----------
+const CHECKS = [
+  { k: "CNPJ / CPF", d: "Situação cadastral na Receita Federal", ok: "Ativo", at: 98 },
+  { k: "CEP e endereço", d: "Planilha × cadastro × Sintegra", ok: "Endereço confere", at: 222 },
+  { k: "Saldo de estoque", d: "Por SKU, classe e depositante", ok: "Saldo disponível", at: 380 },
+  { k: "Vínculo", d: "Destinatário × depositante", ok: "Vínculo cadastrado", at: 486 },
+];
+export const S5V: React.FC = () => {
+  const frame = useCurrentFrame();
+  const alt = useSpring(440, "bouncy");
+  return (
+    <Scene>
+      <div style={{ position: "absolute", left: 130, top: 330, width: 640 }}>
+        <Label>Validações</Label>
+        <div style={{ marginTop: 18 }}>
+          <WordReveal text="Quatro conferências por linha." delay={6} size={80} highlight={["Quatro"]} />
+        </div>
+      </div>
+      <Entrance delay={4} x={80} y={0} style={{ position: "absolute", left: 840, top: 150, width: 960 }}>
+        <div style={{ ...panel, padding: "18px 36px" }}>
+          {CHECKS.map((c, i) => {
+            const on = useSpring(c.at, "snappy");
+            const ok = useSpring(c.at + 40, "bouncy");
+            const active = frame >= c.at && frame < c.at + 120;
+            return (
+              <div key={c.k} style={{ display: "flex", alignItems: "center", columnGap: 24, height: 190, borderBottom: i < 3 ? `1px solid ${C.line}` : undefined, opacity: 0.35 + 0.65 * on }}>
+                <div style={{ width: 84, height: 84, borderRadius: 42, background: active ? C.primary : `${C.primary}1F`, color: active ? "#fff" : C.primary, fontFamily: F.display, fontSize: 40, display: "flex", alignItems: "center", justifyContent: "center", transform: `scale(${interpolate(on, [0, 1], [0.8, 1])})` }}>{i + 1}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontFamily: F.display, fontSize: 40, color: C.text }}>{c.k}</div>
+                  <div style={{ fontFamily: F.body, fontSize: 26, color: C.textDim, marginTop: 6 }}>{c.d}</div>
+                  {i === 2 && (
+                    <div style={{ marginTop: 8, opacity: alt, transform: `translateY(${interpolate(alt, [0, 1], [8, 0])}px)`, fontFamily: F.body, fontWeight: 600, fontSize: 22, color: C.primary }}>Sem saldo? Sugere outra classe com estoque</div>
+                  )}
+                </div>
+                <div style={{ opacity: ok, transform: `scale(${ok})`, transformOrigin: "right center" }}><Chip color={C.ok}>✓ {c.ok}</Chip></div>
+              </div>
+            );
+          })}
+        </div>
+      </Entrance>
+    </Scene>
+  );
+};
+
+// ---------- 6. Correção guiada ----------
 export const S5: React.FC = () => {
   const frame = useCurrentFrame();
   const OPTS = ["Manter o endereço da planilha", "Ajustar conforme o Sintegra", "Ajustar conforme o WebClient"];
@@ -247,18 +305,19 @@ export const S6: React.FC = () => {
   const frame = useCurrentFrame();
   const colW = 400, gap = 30, x0 = 115;
   const stops = [0, 0, 1, 1, 2, 2, 3];
-  const t = [0, 50, 70, 120, 140, 180, 200];
+  const t = [0, 140, 160, 245, 262, 300, 316];
   const pos = interpolate(frame, t, stops, { ...clamp, easing: theme.ease.inOut });
   const colNow = Math.round(pos);
   const hx = x0 + pos * (colW + gap) + 16;
-  const mail = useSpring(140, "bouncy");
-  const appr = useSpring(205, "bouncy");
+  const mail = useSpring(268, "bouncy");
+  const appr = useSpring(325, "bouncy");
+  const pdf = useSpring(218, "bouncy");
   return (
     <Scene>
       <div style={{ position: "absolute", left: 130, top: 120 }}>
         <Label>Orçamento</Label>
         <div style={{ marginTop: 14 }}>
-          <WordReveal text="Do pedido à aprovação." delay={6} size={72} highlight={["aprovação."]} />
+          <WordReveal text="Do pacote ao orçamento." delay={6} size={72} highlight={["orçamento."]} />
         </div>
       </div>
       {COLS.map((c, i) => (
@@ -275,11 +334,14 @@ export const S6: React.FC = () => {
         </Entrance>
       ))}
       <Entrance delay={26} y={30} style={{ position: "absolute", left: hx, top: 400, width: colW - 32 }}>
-        <div style={{ ...panel, borderRadius: 16, padding: "18px 22px", border: `2px solid ${C.primary}`, boxShadow: `0 24px 50px -16px ${C.glow}, 0 30px 60px -20px rgba(35,31,32,0.3)`, transform: `translateY(${float(frame, 3, 24)}px) rotate(${(frame > 50 && frame < 70) || (frame > 140 && frame < 180) ? -2 : 0}deg)` }}>
+        <div style={{ ...panel, borderRadius: 16, padding: "18px 22px", border: `2px solid ${C.primary}`, boxShadow: `0 24px 50px -16px ${C.glow}, 0 30px 60px -20px rgba(35,31,32,0.3)`, transform: `translateY(${float(frame, 3, 24)}px) rotate(${(frame > 140 && frame < 160) || (frame > 245 && frame < 262) || (frame > 300 && frame < 316) ? -2 : 0}deg)` }}>
           <div style={{ fontFamily: F.display, fontSize: 28, color: C.text }}>Pacote · Job Nivea</div>
-          <div style={{ fontFamily: F.body, fontSize: 21, color: C.textDim, marginTop: 6 }}>{colNow === 0 ? "Recebido, aguardando análise" : colNow === 1 ? "Planilha .xlsm e PDF anexados" : colNow === 2 ? "Cliente notificado por e-mail" : "Aprovado pelo cliente"}</div>
+          <div style={{ fontFamily: F.body, fontSize: 21, color: C.textDim, marginTop: 6 }}>{colNow === 0 ? "Pacote criado após a validação" : colNow === 1 ? "Modalidades de frete preenchidas" : colNow === 2 ? "Cliente notificado por e-mail" : "Aprovado pelo cliente"}</div>
         </div>
       </Entrance>
+      <div style={{ position: "absolute", left: x0 + 1 * (colW + gap) + 16, top: 640, opacity: pdf, transform: `scale(${pdf})`, transformOrigin: "left center" }}>
+        <Chip color={C.primary}>PDF + planilha de fretes</Chip>
+      </div>
       <div style={{ position: "absolute", left: x0 + 2 * (colW + gap) + 16, top: 640, opacity: mail, transform: `scale(${mail})`, transformOrigin: "left center" }}>
         <Chip color={C.primary}>✉ E-mail enviado ao cliente</Chip>
       </div>
@@ -290,12 +352,61 @@ export const S6: React.FC = () => {
   );
 };
 
-// ---------- 7. Operação ----------
+// ---------- 8. Aprovação do cliente ----------
+const MODAL = [["Rodoviário Convencional", "R$ 1.280,00"], ["Aéreo Expresso", "R$ 2.940,00"], ["Carro Exclusivo", "R$ 3.610,00"]];
+export const S8A: React.FC = () => {
+  const frame = useCurrentFrame();
+  const sel = frame > 70 ? 0 : -1;
+  const press = interpolate(frame, [150, 154, 160], [1, 0.92, 1], clamp);
+  const done = useSpring(166, "bouncy");
+  const p1 = useSpring(186, "bouncy");
+  const p2 = useSpring(206, "bouncy");
+  return (
+    <Scene>
+      <div style={{ position: "absolute", left: 130, top: 330, width: 640 }}>
+        <Label>Portal do cliente</Label>
+        <div style={{ marginTop: 18 }}>
+          <WordReveal text="Aprova ou recusa. Com motivo." delay={6} size={80} highlight={["Com", "motivo."]} />
+        </div>
+        <div style={{ marginTop: 40, display: "flex", columnGap: 16 }}>
+          <div style={{ opacity: p1, transform: `scale(${p1})`, transformOrigin: "left center" }}><Chip color={C.primary}>Custos extras</Chip></div>
+          <div style={{ opacity: p2, transform: `scale(${p2})`, transformOrigin: "left center" }}><Chip color={C.primary}>Manuseio tabelado</Chip></div>
+        </div>
+      </div>
+      <Entrance delay={4} x={80} y={0} style={{ position: "absolute", left: 860, top: 170, width: 940 }}>
+        <div style={{ ...panel, padding: "34px 44px" }}>
+          <div style={{ fontFamily: F.display, fontSize: 36, color: C.text, marginBottom: 20 }}>Orçamento · Job Nivea</div>
+          {MODAL.map(([m, v], i) => {
+            const on = i === sel;
+            const e = useSpring(26 + i * 10, "snappy");
+            return (
+              <div key={m} style={{ opacity: e, transform: `translateX(${interpolate(e, [0, 1], [24, 0])}px)`, display: "flex", alignItems: "center", justifyContent: "space-between", height: 78, borderRadius: 14, padding: "0 24px", marginBottom: 12, background: on ? `${C.primary}12` : "#F0EEEC", border: `2px solid ${on ? C.primary : "transparent"}`, fontFamily: F.body, fontSize: 30, color: C.text, fontWeight: on ? 700 : 400 }}>
+                <span>{m}</span><span style={{ fontVariantNumeric: "tabular-nums" }}>{v}</span>
+              </div>
+            );
+          })}
+          <div style={{ display: "flex", justifyContent: "flex-end", columnGap: 16, marginTop: 22, height: 70, alignItems: "center" }}>
+            {done < 0.05 ? (
+              <>
+                <div style={{ padding: "14px 34px", borderRadius: 14, background: "#F0EEEC", border: `1px solid ${C.line}`, color: C.text, fontFamily: F.body, fontWeight: 700, fontSize: 26 }}>Recusar</div>
+                <div style={{ padding: "14px 38px", borderRadius: 14, background: C.primary, color: "#fff", fontFamily: F.body, fontWeight: 700, fontSize: 26, transform: `scale(${press})`, boxShadow: `0 12px 30px ${C.glow}` }}>Aprovar</div>
+              </>
+            ) : (
+              <div style={{ transform: `scale(${done})`, opacity: done }}><Chip color={C.ok}>✓ Orçamento aprovado</Chip></div>
+            )}
+          </div>
+        </div>
+      </Entrance>
+    </Scene>
+  );
+};
+
+// ---------- 9. Operação ----------
 const MODS = [
   ["Distribuição de Materiais", "Materiais por classe"],
   ["Gestão de Romaneios", "Pedidos por romaneio"],
   ["Operação de Coletas", "Da ordem ao recebimento"],
-  ["Agenda de Retiradas", "Baixa e assinatura"],
+  ["Agenda de Retiradas", "Agendamento por WhatsApp"],
   ["Operação de Descarte", "Laudo e acompanhamento"],
   ["Transferência entre Bases", "Entre filiais"],
   ["Alertas de Vencimento", "Antes de vencer"],
@@ -306,12 +417,12 @@ export const S7: React.FC = () => {
   return (
     <Scene>
       <div style={{ position: "absolute", left: 0, right: 0, top: 130, display: "flex", justifyContent: "center" }}>
-        <WordReveal text="Aprovado, a operação assume." delay={4} size={88} align="center" highlight={["operação"]} />
+        <WordReveal text="Aprovado, a operação assume." delay={20} size={88} align="center" highlight={["operação"]} />
       </div>
       {MODS.map(([t, d], i) => {
         const col = i % 4, row = Math.floor(i / 4);
         return (
-          <Entrance key={t} delay={34 + i * 16} y={40} style={{ position: "absolute", left: 130 + col * 420, top: 380 + row * 220, width: 390 }}>
+          <Entrance key={t} delay={[70, 112, 150, 186, 250, 285, 320, 345][i]} y={40} style={{ position: "absolute", left: 130 + col * 420, top: 380 + row * 220, width: 390 }}>
             <div style={{ ...panel, height: 190, borderRadius: 22, padding: "26px 28px", position: "relative", overflow: "hidden", transform: `translateY(${float(frame + i * 13, 4, 28)}px)` }}>
               <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 8, background: `linear-gradient(180deg, ${C.primary}, ${C.primary2})` }} />
               <div style={{ fontFamily: F.display, fontSize: 31, lineHeight: 1.15, color: C.text, marginLeft: 8 }}>{t}</div>
@@ -324,7 +435,7 @@ export const S7: React.FC = () => {
   );
 };
 
-// ---------- 8. Encerramento ----------
+// ---------- 10. Encerramento ----------
 export const S8: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();

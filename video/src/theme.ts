@@ -33,6 +33,6 @@ export const W = 1920;
 export const H = 1080;
 
 // frames por cena (narração + respiro)
-export const SCENES = [215, 369, 267, 314, 218, 236, 263, 136] as const;
+export const SCENES = [193, 304, 253, 256, 594, 229, 358, 311, 409, 143] as const;
 export const STARTS = SCENES.reduce<number[]>((a, d, i) => [...a, i === 0 ? 0 : a[i - 1] + SCENES[i - 1]], []);
 export const TOTAL = SCENES.reduce((a, b) => a + b, 0);
