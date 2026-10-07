@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, interpolateColors, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { theme } from "./theme";
 
 const FONTS: [string, string, number][] = [
@@ -83,7 +83,52 @@ export const Scene: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const t: [number, number] = [durationInFrames - 10, durationInFrames - 1];
-  return <AbsoluteFill style={{ opacity: interpolate(frame, t, [1, 0], clamp), transform: `translateY(${interpolate(frame, t, [0, -30], { ...clamp, easing: theme.ease.in })}px)` }}>{children}</AbsoluteFill>;
+  const zoom = interpolate(frame, [0, 22], [1.07, 1], { ...clamp, easing: theme.ease.out });
+  const sweep = interpolate(frame, [0, 16], [-40, 140], { ...clamp, easing: theme.ease.inOut });
+  const sweepO = interpolate(frame, [0, 4, 16], [0, 1, 0], clamp);
+  return (
+    <AbsoluteFill style={{ opacity: interpolate(frame, t, [1, 0], clamp), transform: `translateY(${interpolate(frame, t, [0, -30], { ...clamp, easing: theme.ease.in })}px) scale(${zoom})` }}>
+      {children}
+      <AbsoluteFill style={{ pointerEvents: "none", overflow: "hidden", opacity: sweepO }}>
+        <div style={{ position: "absolute", top: -200, bottom: -200, width: 420, left: `${sweep}%`, transform: "skewX(-18deg)", background: `linear-gradient(90deg, transparent, ${C.teal}55, ${C.pink}44, transparent)`, filter: "blur(18px)" }} />
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+// Partículas / brilhos flutuando (determinístico)
+export const Sparkles: React.FC = () => {
+  const frame = useCurrentFrame();
+  return (
+    <AbsoluteFill style={{ pointerEvents: "none" }}>
+      {Array.from({ length: 34 }).map((_, i) => {
+        const rnd = (n: number) => { const v = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return v - Math.floor(v); };
+        const x = rnd(i + 1) * 1900;
+        const speed = 0.35 + ((i * 37) % 10) / 14;
+        const y = 1160 - ((frame * speed * 1.6 + rnd(i + 50) * 1260) % 1260);
+        const tw = 0.35 + 0.65 * Math.abs(Math.sin(frame / (14 + (i % 7)) + i));
+        const size = 3 + (i % 4) * 2;
+        const col = [C.teal, C.sky, C.pink, C.violet][i % 4];
+        return <div key={i} style={{ position: "absolute", left: x, top: y, width: size, height: size, borderRadius: "50%", background: col, opacity: tw * 0.55, boxShadow: `0 0 ${size * 4}px ${col}` }} />;
+      })}
+    </AbsoluteFill>
+  );
+};
+
+// Legendas (timing aproximado da fala)
+export const Captions: React.FC<{ chunks: { t: string; a: number; b: number }[] }> = ({ chunks }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const t = frame / fps;
+  const idx = chunks.findIndex((c) => t >= c.a && t < c.b);
+  if (idx < 0) return null;
+  const c = chunks[idx];
+  const p = spring({ frame: frame - Math.round(c.a * fps), fps, config: theme.spring.snappy });
+  return (
+    <div style={{ position: "absolute", left: 0, right: 0, bottom: 34, display: "flex", justifyContent: "center", opacity: Math.min(1, p), transform: `translateY(${interpolate(p, [0, 1], [18, 0])}px) scale(${interpolate(p, [0, 1], [0.94, 1])})` }}>
+      <div style={{ padding: "12px 34px", borderRadius: 22, background: "rgba(7,11,22,0.72)", border: `1px solid ${C.line}`, backdropFilter: "blur(10px)", fontFamily: F.display, fontWeight: 700, fontSize: 40, color: C.text, letterSpacing: "-0.01em", textShadow: "0 2px 18px rgba(0,0,0,0.6)", whiteSpace: "nowrap" }}>{c.t}</div>
+    </div>
+  );
 };
 
 export const Counter: React.FC<{ to: number; delay?: number; style?: React.CSSProperties }> = ({ to, delay = 0, style }) => {

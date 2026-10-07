@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate, interpolateColors, useCurrentFrame } from "remotion";
 import { AiBadge, C, Chip, Counter, Entrance, F, GradText, Label, Mark, Scene, WordReveal, breathe, clamp, float, panel, useSpring } from "./components";
 import { theme } from "./theme";
 
@@ -318,6 +318,75 @@ export const S9: React.FC = () => {
   );
 };
 
+// 9b ---------- Personalização ----------
+const THEMES = [
+  { store: "Boutique Malu", ini: "BM", c: "#00E0C6" },
+  { store: "Casa do Sabor", ini: "CS", c: "#F4A261" },
+  { store: "Bella Store", ini: "BS", c: "#FF2E9A" },
+  { store: "Studio Fashion", ini: "SF", c: "#7C3AED" },
+];
+export const SCust: React.FC = () => {
+  const frame = useCurrentFrame();
+  const step = Math.min(3, Math.floor(frame / 58));
+  const cols = THEMES.map((t) => t.c);
+  const acc = interpolateColors(frame, [0, 58, 116, 174], cols.slice(0, 4).map((x, i) => (i === 0 ? cols[0] : x)));
+  const accCont = interpolateColors(frame, [0, 46, 58, 104, 116, 162, 174, 220], [cols[0], cols[0], cols[1], cols[1], cols[2], cols[2], cols[3], cols[3]]);
+  const light = frame > 215;
+  const bg = light ? "#F4F6FA" : "rgba(14,20,36,0.96)";
+  const ink = light ? "#10172A" : C.text;
+  const card = light ? "#FFFFFF" : "rgba(255,255,255,0.06)";
+  const th = THEMES[step];
+  const sw = useSpring(20, "bouncy");
+  return (
+    <Scene>
+      <Left top={250}>
+        <Label color={accCont}>Personalização</Label>
+        <div style={{ marginTop: 18 }}><WordReveal text="Com a cara da sua marca." delay={6} size={68} highlight={["marca."]} /></div>
+        <div style={{ display: "flex", columnGap: 18, marginTop: 40, opacity: Math.min(1, sw), transform: `scale(${sw})`, transformOrigin: "left center" }}>
+          {THEMES.map((t, i) => (
+            <div key={t.c} style={{ width: 62, height: 62, borderRadius: 31, background: t.c, border: `4px solid ${i === step ? "#fff" : "transparent"}`, boxShadow: i === step ? `0 0 34px ${t.c}` : undefined, transform: `scale(${i === step ? 1.18 : 1})` }} />
+          ))}
+        </div>
+        <div style={{ marginTop: 26, display: "flex", columnGap: 14 }}>
+          <Chip color={accCont}>Logo</Chip><Chip color={accCont}>Cores</Chip><Chip color={accCont}>Tema claro / escuro</Chip>
+        </div>
+      </Left>
+      <Right top={140} width={920} left={880}>
+        <div style={{ borderRadius: 30, overflow: "hidden", background: bg, border: `1px solid ${light ? "#DDE3EE" : C.line}`, boxShadow: `0 40px 90px -20px rgba(0,0,0,0.7), 0 0 80px ${accCont}44`, display: "flex", height: 700 }}>
+          <div style={{ width: 230, padding: "28px 22px", background: light ? "#EAEFF8" : "rgba(255,255,255,0.04)", borderRight: `1px solid ${light ? "#DDE3EE" : C.line}` }}>
+            <div style={{ display: "flex", alignItems: "center", columnGap: 14, marginBottom: 34 }}>
+              <div style={{ width: 54, height: 54, borderRadius: 16, background: acc, color: "#0B1020", fontFamily: F.display, fontWeight: 800, fontSize: 22, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 8px 24px ${accCont}88` }}>{th.ini}</div>
+              <div style={{ fontFamily: F.display, fontSize: 17, color: ink, lineHeight: 1.2 }}>{th.store}</div>
+            </div>
+            {["Dashboard", "PDV", "Estoque", "Caixa", "IA"].map((n, i) => (
+              <div key={n} style={{ padding: "14px 16px", borderRadius: 14, marginBottom: 8, fontFamily: F.body, fontWeight: 700, fontSize: 22, color: i === 0 ? "#0B1020" : (light ? "#4A5878" : C.muted), background: i === 0 ? accCont : "transparent" }}>{n}</div>
+            ))}
+          </div>
+          <div style={{ flex: 1, padding: "30px 32px" }}>
+            <div style={{ fontFamily: F.display, fontSize: 32, color: ink, marginBottom: 22 }}>Dashboard</div>
+            <div style={{ display: "flex", columnGap: 16 }}>
+              {[["Faturamento", "R$ ••.•••"], ["Ticket médio", "R$ •••"], ["Lucro líquido", "em alta"]].map(([l, v], i) => (
+                <div key={l} style={{ flex: 1, padding: "20px 20px", borderRadius: 18, background: card, border: `1px solid ${light ? "#E3E8F2" : C.line}` }}>
+                  <div style={{ fontFamily: F.body, fontWeight: 700, fontSize: 18, color: light ? "#5A6785" : C.muted }}>{l}</div>
+                  <div style={{ fontFamily: F.display, fontSize: 28, color: i === 2 ? accCont : ink, marginTop: 10 }}>{v}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 22, padding: "22px 24px", borderRadius: 18, background: card, border: `1px solid ${light ? "#E3E8F2" : C.line}`, height: 330, display: "flex", alignItems: "flex-end", columnGap: 16 }}>
+              {[40, 62, 48, 78, 66, 92, 74, 100].map((h, i) => (
+                <div key={i} style={{ flex: 1, height: `${h * 2.8}px`, borderRadius: "10px 10px 3px 3px", background: i % 2 ? accCont : `${accCont}88` }} />
+              ))}
+            </div>
+            <div style={{ marginTop: 18, display: "flex", justifyContent: "flex-end" }}>
+              <div style={{ padding: "14px 34px", borderRadius: 14, background: acc, color: "#0B1020", fontFamily: F.body, fontWeight: 800, fontSize: 24 }}>Nova venda</div>
+            </div>
+          </div>
+        </div>
+      </Right>
+    </Scene>
+  );
+};
+
 // 10 ---------- Filiais ----------
 const BRANCH = ["Matriz", "Shopping", "Praia"];
 export const S10: React.FC = () => {
@@ -402,7 +471,7 @@ export const S12: React.FC = () => {
           </div>
         </Entrance>
       ))}
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 90, display: "flex", justifyContent: "center", opacity: Math.min(1, free), transform: `scale(${free})` }}><Chip color={C.ok} size={30}>7 dias grátis · sem cartão · sem fidelidade</Chip></div>
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 150, display: "flex", justifyContent: "center", opacity: Math.min(1, free), transform: `scale(${free})` }}><Chip color={C.ok} size={30}>7 dias grátis · sem cartão · sem fidelidade</Chip></div>
     </Scene>
   );
 };

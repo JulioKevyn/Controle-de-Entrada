@@ -14,6 +14,7 @@ LINES = {
  "s10": "[confident] Tem mais de uma loja? Cada filial com caixa, estoque e equipe próprios, tudo numa conta só, com backup automático e registro de quem fez o quê.",
  "s11": "[warm] Quem usa aprova. Ver o lucro de cada produto, e não só o faturamento, muda a forma de administrar a loja.",
  "s12": "[confident] Comece com sete dias grátis, sem cartão. Escolha o Básico, o Pro, ou o Master I A, com toda a inteligência artificial.",
+ "sp": "[excited] E ainda fica com a cara da sua marca! Escolha o logo, as cores e o tema, e o sistema inteiro muda para o estilo da sua loja.",
  "s13": "[excited] Future PDV. Sua loja merece saber quanto realmente lucra. Teste grátis por sete dias!",
 }
 os.makedirs("public/audio", exist_ok=True)

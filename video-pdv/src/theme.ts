@@ -33,6 +33,6 @@ export const theme = {
 export const FPS = 30;
 export const W = 1920;
 export const H = 1080;
-export const SCENES = [265, 327, 261, 258, 299, 258, 198, 402, 363, 392, 253, 253, 258] as const;
+export const SCENES = [265, 327, 261, 258, 299, 258, 198, 402, 363, 272, 392, 253, 253, 258] as const;
 export const STARTS = SCENES.reduce<number[]>((a, d, i) => [...a, i === 0 ? 0 : a[i - 1] + SCENES[i - 1]], []);
 export const TOTAL = SCENES.reduce((a, b) => a + b, 0);
