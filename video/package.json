@@ -1,0 +1,16 @@
+{
+  "name": "mundial-solicitacao-video",
+  "private": true,
+  "scripts": {
+    "render": "remotion render src/index.ts Main out/video.mp4 --codec h264 --crf 17"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.534",
+    "@remotion/google-fonts": "^4.0.534",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.534",
+    "typescript": "^7.0.2"
+  }
+}
