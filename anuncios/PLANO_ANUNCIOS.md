@@ -1,7 +1,9 @@
 # Plano completo de anúncios — Future PDV e Vídeos Motion
 
 **Orçamento:** R$ 50 para cada (R$ 100 no total) · **Canal:** Instagram e Facebook (Meta Ads)
-**Objetivo único:** conversas no WhatsApp (11) 96620-9914
+**Objetivo:**
+- **Future PDV → cadastros no próprio site.** O sistema tem cadastro automático (página "Criar minha loja grátis", 7 dias grátis, sem cartão), então **o anúncio leva direto ao site**, sem passar pelo WhatsApp.
+- **Vídeos Motion → conversas no WhatsApp** (11) 96620-9914 (é um serviço vendido por orçamento).
 **Hoje:** quarta-feira, 07/10/2026
 
 ---
@@ -29,17 +31,23 @@ computador e no WhatsApp decidindo o mês. Terça e quarta costumam ser melhores
 
 ---
 
-## 2. COMO ESTÁ CONFIGURADO (igual para os dois)
+## 2. COMO ESTÁ CONFIGURADO
 
-| Item | Configuração |
-|---|---|
-| Campanha | **Engajamento → Mensagens (WhatsApp)** |
-| Estrutura | 1 campanha → 1 conjunto → 2 anúncios (A/B) |
-| Orçamento | **R$ 10 por dia por 5 dias** (diário, sem alterar durante o teste) |
-| Posicionamentos | Manual: Instagram **Reels, Stories e Feed** (vídeo vertical 9:16) |
-| Idade / idioma | 25–55 · Português |
-| Botão | **Enviar mensagem** |
-| Alterações | Nada de mexer em orçamento ou público nos primeiros 2 dias |
+| Item | Future PDV | Vídeos Motion |
+|---|---|---|
+| Campanha | **Tráfego** (destino: site) | **Engajamento → Mensagens (WhatsApp)** |
+| Otimizar para | **Visualizações da página de destino** (ou **Cliques no link**, se não houver Pixel) | Conversas iniciadas |
+| Botão | **Cadastre-se** | **Enviar mensagem** |
+| Estrutura | 1 campanha → 1 conjunto → 2 anúncios (A/B) | igual |
+| Orçamento | **R$ 10/dia × 5 dias** | **R$ 10/dia × 5 dias** |
+| Posicionamentos | Manual: Instagram **Reels, Stories e Feed** (vertical 9:16) | igual |
+| Idade / idioma | 25–55 · Português | 22–50 · Português |
+| Alterações | Nada de mexer nos 2 primeiros dias | igual |
+
+> **Link do site:** use o endereço da página inicial do Future PDV com marcação de origem, por exemplo
+> `https://SEU-SITE/?utm_source=instagram&utm_medium=anuncio&utm_campaign=pdv_out26_a`
+> (troque `_a` por `_b` no anúncio B). O sistema ainda não grava essa origem, então a contagem de cadastros
+> será feita pelo **painel admin** (lojas novas criadas nos dias do anúncio) comparada aos cliques da Meta.
 
 ---
 
@@ -92,17 +100,18 @@ Boutique, Lojas de roupas · comportamento: Administradores de Páginas, Pequena
 **Texto principal A (dor):**
 > No fim do mês você sabe quanto realmente sobrou?
 > O Future PDV mostra o lucro de cada produto, controla o estoque por cor e tamanho e tem uma IA que responde sobre a sua loja.
-> Teste 7 dias grátis, sem cartão. Chame aqui.
+> Teste 7 dias grátis, sem cartão. Crie sua loja no link.
 
 **Texto principal B (IA):**
 > E se você pudesse perguntar para a sua loja o que está parado no estoque?
 > No Future PDV a inteligência artificial responde com os números reais e manda alertas no seu WhatsApp.
-> 7 dias grátis. Chame aqui.
+> 7 dias grátis, sem cartão. Crie sua loja no link.
 
 **Título:** "PDV com inteligência artificial" · "Descubra o lucro real da sua loja"
 **Descrição:** "7 dias grátis · sem cartão · sem fidelidade"
 
-**Link WhatsApp:** https://wa.me/5511966209914?text=Ol%C3%A1!%20Vi%20o%20an%C3%BAncio%20do%20Future%20PDV%20e%20quero%20testar%207%20dias%20gr%C3%A1tis.
+**Link de destino:** página inicial do Future PDV (landing) com os parâmetros UTM da seção 2. Botão: **Cadastre-se**.
+(Se quiser encurtar o caminho, use o endereço `/register`; a landing explica melhor o produto, então é a recomendada para público frio.)
 
 **Evite:** "lucro garantido", "venda mais X%", comparação com concorrentes. Depoimentos só dos 3 autorizados
 (Boutique Malu, Bella Store, Empório da Praça).
@@ -133,11 +142,14 @@ Edição de vídeo · comportamento: Administradores de Páginas, Pequenas empre
 
 ## 4. PASSO A PASSO NO GERENCIADOR DE ANÚNCIOS
 
-1. Campanha: objetivo **Engajamento** (ou "Mensagens") → destino **WhatsApp**.
-2. Conectar o WhatsApp Business à Página/Instagram.
+**Future PDV:** objetivo **Tráfego** → destino **Site** (URL da landing com UTM) → botão **Cadastre-se**. Não precisa de WhatsApp.
+**Motion:** objetivo **Engajamento** (ou "Mensagens") → destino **WhatsApp**.
+
+1. Crie a campanha com o objetivo da tabela da seção 2.
+2. (Só Motion) Conectar o WhatsApp Business à Página/Instagram.
 3. Conjunto: orçamento diário **R$ 10**, datas de início e fim (seção 1), público e posicionamentos manuais.
 4. Anúncio A: vídeo vertical + texto A + título 1 + botão "Enviar mensagem".
-5. Anúncio B: duplicar e trocar **uma** coisa (texto ou vídeo).
+5. Anúncio B: duplicar e trocar **uma** coisa (texto ou vídeo). No PDV, troque também `utm_campaign` de `_a` para `_b`.
 6. Conferir a prévia em **Reels** e **Stories** (a legenda do vídeo não pode ficar cortada).
 7. Publicar na véspera (revisão da Meta) e programar o início para 00:00.
 
@@ -151,7 +163,10 @@ Edição de vídeo · comportamento: Administradores de Páginas, Pequenas empre
 | Custo por conversa muito acima da faixa de referência | Repetir só se a conversa tiver virado venda. |
 | Dia 5 | Medir: conversas, respondidas, viraram teste/orçamento, viraram cliente. |
 
-## 6. ATENDIMENTO NO WHATSAPP (onde o anúncio vira venda)
+## 6. ATENDIMENTO (onde o anúncio vira venda)
+
+**Future PDV:** o cadastro é automático. Fique de olho no painel admin e, quando uma loja nova entrar, chame no WhatsApp para ajudar na implantação (isso é o diferencial de suporte). O roteiro abaixo serve para quem pedir ajuda.
+
 
 **Responder em até 10 minutos** (anúncio de mensagem perde força depois).
 **Boas-vindas + 3 botões:** "Quero ver como funciona" · "Quanto custa?" · "Falar com uma pessoa".
@@ -169,14 +184,21 @@ Edição de vídeo · comportamento: Administradores de Páginas, Pequenas empre
 
 ## 7. COMO MEDIR (planilha simples)
 
-| Data | Anúncio | Gasto | Conversas | Respondidas | Viraram teste/orçamento | Clientes |
+**Future PDV** (cadastro no site):
+
+| Data | Anúncio | Gasto | Cliques no link | Visualizações da página | Lojas criadas (painel admin) | Viraram pagantes |
 |---|---|---|---|---|---|---|
 | 13–17/10 | PDV A | | | | | |
 | 13–17/10 | PDV B | | | | | |
+
+**Motion** (WhatsApp):
+
+| Data | Anúncio | Gasto | Conversas | Respondidas | Viraram orçamento | Clientes |
+|---|---|---|---|---|---|---|
 | 20–24/10 | Motion A | | | | | |
 | 20–24/10 | Motion B | | | | | |
 
-**Custo por conversa** = gasto ÷ conversas. **Custo por cliente** = gasto ÷ clientes (o número que decide).
+**Custo por cadastro (PDV)** = gasto ÷ lojas criadas. **Custo por conversa (Motion)** = gasto ÷ conversas. **Custo por cliente** = gasto ÷ clientes pagantes (o número que decide).
 
 ## 8. DEPOIS DOS R$ 50
 
