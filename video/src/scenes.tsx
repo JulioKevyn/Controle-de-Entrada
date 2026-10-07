@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Chip, Counter, OrangeCover, Entrance, Label, Mark, Scene, WordReveal, breathe, float, useSpring } from "./components";
 import { theme } from "./theme";
 
@@ -14,8 +14,6 @@ const panel: React.CSSProperties = {
   boxShadow: "0 30px 60px -20px rgba(35,31,32,0.28)",
 };
 
-const CLIENTS = ["lg", "bayer", "heineken", "mondelez", "whirlpool", "danone", "diageo", "nivea", "opella", "unilever"];
-const NAMES = ["LG", "BAYER", "HEINEKEN", "MONDELEZ", "WHIRLPOOL", "DANONE", "DIAGEO", "NIVEA", "OPELLA", "UNILEVER"];
 
 // ---------- 1. Abertura ----------
 const Pill: React.FC<{ delay: number; children: React.ReactNode }> = ({ delay, children }) => (
@@ -41,268 +39,290 @@ export const S1: React.FC = () => {
 };
 
 // ---------- 2. Problema ----------
+const SHEETS = ["NIVEA", "DANONE", "BAYER", "MONDELEZ", "PERNOD RICARD", "OUTROS"];
 const SheetCard: React.FC<{ i: number; name: string }> = ({ i, name }) => {
   const frame = useCurrentFrame();
-  const p = useSpring(18 + i * 5, "bouncy");
-  const rot = ((i * 37) % 17) - 8;
-  const pos = [
-    [0, 0], [310, 20], [620, 0], [150, 160], [460, 170],
-    [0, 330], [310, 340], [620, 330], [150, 500], [460, 510],
-  ][i];
+  const p = useSpring(18 + i * 6, "bouncy");
+  const bad = useSpring(150 + i * 12, "bouncy");
+  const rot = ((i * 37) % 13) - 6;
+  const pos = [[0, 0], [310, 30], [620, 0], [100, 230], [410, 250], [720, 240]][i];
   const cols = 3 + (i % 3);
   return (
-    <div
-      style={{
-        position: "absolute", left: pos[0], top: pos[1], width: 240, height: 160, ...panel, borderRadius: 16, padding: 14,
-        opacity: p,
-        transform: `translateY(${float(frame + i * 9, 6, 26)}px) rotate(${rot * p}deg) scale(${interpolate(p, [0, 1], [0.6, 1])})`,
-      }}
-    >
-      <div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 16, color: C.textDim, letterSpacing: "0.1em", marginBottom: 10 }}>{name}.xlsx</div>
+    <div style={{ position: "absolute", left: pos[0], top: pos[1], width: 250, height: 170, ...panel, borderRadius: 16, padding: 14, opacity: p, transform: `translateY(${float(frame + i * 9, 6, 26)}px) rotate(${rot * p}deg) scale(${interpolate(p, [0, 1], [0.6, 1])})` }}>
+      <div style={{ fontFamily: F.body, fontWeight: 700, fontSize: 16, color: C.textDim, letterSpacing: "0.1em", marginBottom: 10 }}>{name}.xlsx</div>
       <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 5 }}>
         {Array.from({ length: cols * 5 }).map((_, k) => (
           <div key={k} style={{ height: 12, borderRadius: 3, background: k < cols ? `${C.accent}88` : "rgba(35,31,32,0.09)" }} />
         ))}
       </div>
+      <div style={{ position: "absolute", right: -14, top: -14, width: 40, height: 40, borderRadius: 20, background: C.primary, color: "#fff", fontFamily: F.display, fontSize: 24, display: "flex", alignItems: "center", justifyContent: "center", transform: `scale(${bad})`, boxShadow: "0 8px 20px -6px rgba(236,103,7,0.6)" }}>!</div>
     </div>
   );
 };
 
 export const S2: React.FC = () => (
   <Scene>
-    <div style={{ position: "absolute", left: 130, top: 230, width: 760 }}>
+    <div style={{ position: "absolute", left: 130, top: 250, width: 760 }}>
       <Label>O desafio</Label>
-      <div style={{ display: "flex", alignItems: "baseline", columnGap: 28, marginTop: 20 }}>
-        <Entrance delay={8} cfg="snappy">
-          <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: 260, lineHeight: 1, letterSpacing: "0.01em", color: C.primary, textShadow: `0 8px 40px ${C.glow}` }}>
-            <Counter to={10} delay={8} />
-          </div>
-        </Entrance>
-        <WordReveal text="clientes" delay={14} size={90} />
+      <div style={{ marginTop: 20 }}>
+        <WordReveal text="Um layout para cada cliente." delay={6} size={84} highlight={["cada", "cliente."]} />
       </div>
-      <div style={{ marginTop: 30 }}>
-        <WordReveal text="Dezenas de planilhas, cada uma com seu formato." delay={60} size={54} weight={600} />
+      <div style={{ marginTop: 44, display: "flex", flexDirection: "column", rowGap: 18 }}>
+        {["CNPJ está ativo?", "O endereço confere?", "Tem estoque?"].map((t, i) => (
+          <Entrance key={t} delay={120 + i * 40} x={-30} y={0} style={{ alignSelf: "flex-start" }}>
+            <div style={{ ...panel, borderRadius: 18, padding: "16px 32px", fontFamily: F.body, fontWeight: 600, fontSize: 36, color: C.text, display: "flex", alignItems: "center", columnGap: 18 }}>
+              <span style={{ color: C.primary, fontFamily: F.display, fontSize: 40 }}>?</span>{t}
+            </div>
+          </Entrance>
+        ))}
       </div>
     </div>
-    <div style={{ position: "absolute", left: 940, top: 250, width: 900, height: 600 }}>
-      {NAMES.map((n, i) => <SheetCard key={n} i={i} name={n} />)}
+    <div style={{ position: "absolute", left: 900, top: 270, width: 960, height: 520 }}>
+      {SHEETS.map((n, i) => <SheetCard key={n} i={i} name={n} />)}
     </div>
   </Scene>
 );
 
-// ---------- 3. Acesso por cliente ----------
+// ---------- 3. Envio da planilha ----------
+const FINALIDADES = ["Envio", "Descarte", "Coleta", "Transferência", "Retirada"];
+const Field: React.FC<{ label: string; children: React.ReactNode; delay: number }> = ({ label, children, delay }) => (
+  <Entrance delay={delay} y={24}>
+    <div style={{ fontFamily: F.body, fontWeight: 700, fontSize: 20, letterSpacing: "0.12em", color: C.textDim, textTransform: "uppercase", marginBottom: 10 }}>{label}</div>
+    {children}
+  </Entrance>
+);
+const Input: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
+  <div style={{ height: 66, borderRadius: 14, background: "#F0EEEC", border: `1px solid ${C.line}`, display: "flex", alignItems: "center", padding: "0 22px", fontFamily: F.body, fontSize: 28, color: C.text, justifyContent: "space-between" }}>{children}</div>
+);
+
 export const S3: React.FC = () => {
   const frame = useCurrentFrame();
-  const modal = useSpring(70, "bouncy");
-  const modalOut = interpolate(frame, [168, 182], [1, 0], { ...clamp, easing: theme.ease.in });
-  const dots = Math.floor(interpolate(frame, [92, 128], [0, 6], clamp));
-  const ok = useSpring(138, "bouncy");
-  const dim = interpolate(frame, [66, 84], [0, 0.65], clamp) * modalOut;
+  const sel = frame > 50 ? 0 : -1;
+  const client = "Nivea";
+  const typed = client.slice(0, Math.floor(interpolate(frame, [80, 105], [0, client.length + 0.99], clamp)));
+  const prog = interpolate(frame, [130, 175], [0, 1], { ...clamp, easing: theme.ease.inOut });
+  const det = useSpring(185, "bouncy");
   return (
     <Scene>
-      <div style={{ position: "absolute", left: 150, top: 110 }}>
-        <Label>Acesso</Label>
-        <div style={{ marginTop: 14 }}>
-          <WordReveal text="Um módulo por cliente." delay={6} size={84} highlight={["cliente."]} />
+      <div style={{ position: "absolute", left: 130, top: 330, width: 640 }}>
+        <Label>Envio de planilha</Label>
+        <div style={{ marginTop: 18 }}>
+          <WordReveal text="Tudo começa na planilha." delay={6} size={84} highlight={["planilha."]} />
         </div>
       </div>
-      {CLIENTS.map((c, i) => {
-        const col = i % 5, row = Math.floor(i / 5);
+      <Entrance delay={4} x={80} y={0} style={{ position: "absolute", left: 860, top: 170, width: 940 }}>
+        <div style={{ ...panel, padding: "40px 44px", display: "flex", flexDirection: "column", rowGap: 30 }}>
+          <Field label="Finalidade da solicitação" delay={14}>
+            <div style={{ display: "flex", columnGap: 12 }}>
+              {FINALIDADES.map((f, i) => (
+                <div key={f} style={{ flex: 1, height: 70, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F.body, fontWeight: 700, fontSize: 23, color: i === sel ? "#fff" : C.text, background: i === sel ? C.primary : "#F0EEEC", border: `1px solid ${i === sel ? C.primary : C.line}`, boxShadow: i === sel ? `0 12px 24px -10px ${C.primary}` : undefined }}>{f}</div>
+              ))}
+            </div>
+          </Field>
+          <Field label="Cliente / Depositante" delay={34}>
+            <Input>
+              <span>{typed}<span style={{ display: "inline-block", width: 2, height: 30, background: C.text, marginLeft: 3, verticalAlign: "middle", opacity: frame < 108 ? Math.floor(frame / 8) % 2 : 0 }} /></span>
+              <span style={{ color: C.textDim }}>⌄</span>
+            </Input>
+          </Field>
+          <Field label="Planilha do pedido" delay={54}>
+            <Input>
+              <span>pedido_nivea.xlsx</span>
+              <div style={{ width: 220, height: 10, borderRadius: 5, background: "rgba(35,31,32,0.1)", overflow: "hidden" }}>
+                <div style={{ width: `${prog * 100}%`, height: "100%", background: `linear-gradient(90deg, ${C.primary}, ${C.primary2})` }} />
+              </div>
+            </Input>
+          </Field>
+          <div style={{ height: 56, transform: `scale(${det})`, opacity: det, transformOrigin: "left center" }}>
+            <Chip color={C.ok}>✓ Template detectado: layout Nivea</Chip>
+          </div>
+        </div>
+      </Entrance>
+    </Scene>
+  );
+};
+
+// ---------- 4. Validação antecipada ----------
+const STEPS = [
+  { t: "Identificar cliente / template", at: 40 },
+  { t: "Extrair dados da planilha", at: 90 },
+  { t: "Validar CNPJ/CPF na Receita Federal", at: 140 },
+  { t: "Validar cadastro, endereço e estoque", at: 200 },
+  { t: "Gerar orçamento / grade", at: 255 },
+];
+export const S4: React.FC = () => {
+  const frame = useCurrentFrame();
+  const done = STEPS.filter((s) => frame >= s.at).length;
+  const pct = interpolate(frame, [20, 260], [0, 1], clamp);
+  const note = useSpring(270, "bouncy");
+  return (
+    <Scene>
+      <div style={{ position: "absolute", left: 130, top: 300, width: 700 }}>
+        <Label>Validação antecipada</Label>
+        <div style={{ marginTop: 18 }}>
+          <WordReveal text="Descubra o erro antes de enviar." delay={6} size={80} highlight={["antes"]} />
+        </div>
+      </div>
+      <Entrance delay={4} x={80} y={0} style={{ position: "absolute", left: 900, top: 190, width: 900 }}>
+        <div style={{ ...panel, padding: "36px 44px" }}>
+          <div style={{ fontFamily: F.display, fontSize: 38, color: C.text, marginBottom: 26 }}>Validando sua solicitação</div>
+          <div style={{ height: 10, borderRadius: 5, background: "rgba(35,31,32,0.1)", overflow: "hidden", marginBottom: 28 }}>
+            <div style={{ width: `${pct * 100}%`, height: "100%", background: `linear-gradient(90deg, ${C.primary}, ${C.primary2})` }} />
+          </div>
+          {STEPS.map((s, i) => {
+            const ok = frame >= s.at;
+            const active = i === done;
+            const p = useSpring(14 + i * 5, "snappy");
+            return (
+              <div key={s.t} style={{ display: "flex", alignItems: "center", columnGap: 20, height: 72, opacity: p, borderBottom: i < STEPS.length - 1 ? `1px solid ${C.line}` : undefined }}>
+                <div style={{ width: 38, height: 38, borderRadius: 19, border: `3px solid ${ok ? C.ok : active ? C.primary : C.line}`, background: ok ? C.ok : "transparent", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 700, position: "relative" }}>
+                  {ok ? "✓" : active ? <div style={{ position: "absolute", inset: -3, borderRadius: 19, border: `3px solid transparent`, borderTopColor: C.primary, transform: `rotate(${frame * 14}deg)` }} /> : null}
+                </div>
+                <span style={{ fontFamily: F.body, fontSize: 30, fontWeight: ok ? 600 : 400, color: ok ? C.text : C.textDim }}>{s.t}</span>
+              </div>
+            );
+          })}
+          <div style={{ marginTop: 26, height: 56, opacity: note, transform: `scale(${note})`, transformOrigin: "left center" }}>
+            <Chip color={C.primary}>Nada é gravado até você enviar</Chip>
+          </div>
+        </div>
+      </Entrance>
+    </Scene>
+  );
+};
+
+// ---------- 5. Correção guiada ----------
+export const S5: React.FC = () => {
+  const frame = useCurrentFrame();
+  const OPTS = ["Manter o endereço da planilha", "Ajustar conforme o Sintegra", "Ajustar conforme o WebClient"];
+  const sel = frame > 70 ? 1 : -1;
+  const press = interpolate(frame, [112, 116, 122], [1, 0.93, 1], clamp);
+  const okIn = useSpring(138, "bouncy");
+  const card = interpolate(frame, [134, 146], [1, 0], { ...clamp, easing: theme.ease.in });
+  return (
+    <Scene>
+      <div style={{ position: "absolute", left: 130, top: 330, width: 700 }}>
+        <Label>Correção guiada</Label>
+        <div style={{ marginTop: 18 }}>
+          <WordReveal text="O sistema pergunta. Você decide." delay={6} size={84} highlight={["decide."]} />
+        </div>
+      </div>
+      <Entrance delay={4} x={80} y={0} style={{ position: "absolute", left: 900, top: 200, width: 900, opacity: undefined }}>
+        <div style={{ ...panel, padding: "38px 44px", opacity: card, transform: `scale(${interpolate(card, [0, 1], [0.92, 1])})` }}>
+          <div style={{ display: "flex", alignItems: "center", columnGap: 16, marginBottom: 8 }}>
+            <div style={{ width: 44, height: 44, borderRadius: 22, background: C.primary, color: "#fff", fontFamily: F.display, fontSize: 28, display: "flex", alignItems: "center", justifyContent: "center" }}>!</div>
+            <div style={{ fontFamily: F.display, fontSize: 34, color: C.text }}>Endereço divergente</div>
+          </div>
+          <div style={{ fontFamily: F.body, fontSize: 26, color: C.textDim, marginBottom: 26 }}>Planilha, WebClient e Sintegra trazem endereços diferentes. Qual usar?</div>
+          {OPTS.map((o, i) => {
+            const on = i === sel;
+            const p = useSpring(24 + i * 8, "snappy");
+            return (
+              <div key={o} style={{ opacity: p, transform: `translateX(${interpolate(p, [0, 1], [24, 0])}px)`, display: "flex", alignItems: "center", columnGap: 18, height: 74, borderRadius: 14, padding: "0 24px", marginBottom: 12, background: on ? `${C.primary}12` : "#F0EEEC", border: `2px solid ${on ? C.primary : "transparent"}`, fontFamily: F.body, fontSize: 30, fontWeight: on ? 700 : 400, color: C.text }}>
+                <div style={{ width: 28, height: 28, borderRadius: 14, border: `3px solid ${on ? C.primary : C.textDim}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {on && <div style={{ width: 14, height: 14, borderRadius: 7, background: C.primary }} />}
+                </div>
+                {o}
+              </div>
+            );
+          })}
+          <div style={{ marginTop: 22, display: "flex", justifyContent: "flex-end" }}>
+            <div style={{ padding: "16px 38px", borderRadius: 14, background: C.primary, color: "#fff", fontFamily: F.body, fontWeight: 700, fontSize: 28, transform: `scale(${press})`, boxShadow: `0 12px 30px ${C.glow}` }}>✓ Confirmar e revalidar</div>
+          </div>
+        </div>
+      </Entrance>
+      <AbsoluteFill style={{ left: 900, width: 900, top: 200, height: 640, alignItems: "center", justifyContent: "center", position: "absolute" }}>
+        <div style={{ opacity: okIn, transform: `scale(${interpolate(okIn, [0, 1], [0.5, 1])})`, textAlign: "center" }}>
+          <div style={{ width: 150, height: 150, borderRadius: 75, margin: "0 auto 26px", background: `${C.ok}1F`, border: `3px solid ${C.ok}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 84, color: C.ok }}>✓</div>
+          <div style={{ fontFamily: F.display, fontSize: 52, color: C.text }}>Revalidado, sem pendências</div>
+        </div>
+      </AbsoluteFill>
+    </Scene>
+  );
+};
+
+// ---------- 6. Orçamento (Kanban) ----------
+const COLS = ["Aguardando Orçamento", "Orçamento em Elaboração", "Aguardando Aprovação do Cliente", "Aprovado"];
+export const S6: React.FC = () => {
+  const frame = useCurrentFrame();
+  const colW = 400, gap = 30, x0 = 115;
+  const stops = [0, 0, 1, 1, 2, 2, 3];
+  const t = [0, 50, 70, 120, 140, 180, 200];
+  const pos = interpolate(frame, t, stops, { ...clamp, easing: theme.ease.inOut });
+  const colNow = Math.round(pos);
+  const hx = x0 + pos * (colW + gap) + 16;
+  const mail = useSpring(140, "bouncy");
+  const appr = useSpring(205, "bouncy");
+  return (
+    <Scene>
+      <div style={{ position: "absolute", left: 130, top: 120 }}>
+        <Label>Orçamento</Label>
+        <div style={{ marginTop: 14 }}>
+          <WordReveal text="Do pedido à aprovação." delay={6} size={72} highlight={["aprovação."]} />
+        </div>
+      </div>
+      {COLS.map((c, i) => (
+        <Entrance key={c} delay={10 + i * 6} y={40} style={{ position: "absolute", left: x0 + i * (colW + gap), top: 310, width: colW }}>
+          <div style={{ ...panel, height: 560, padding: 18, borderRadius: 22, background: i === 3 ? `${C.ok}0F` : "#FFFFFFB3" }}>
+            <div style={{ fontFamily: F.body, fontWeight: 700, fontSize: 25, color: i === 3 ? C.ok : C.text, height: 64, lineHeight: 1.2 }}>{c}</div>
+            {i < 3 && [0, 1].map((k) => (
+              <div key={k} style={{ height: 100, borderRadius: 14, background: "#F0EEEC", marginBottom: 14, padding: 16, opacity: 0.8 }}>
+                <div style={{ height: 14, width: "60%", borderRadius: 7, background: "rgba(35,31,32,0.14)", marginBottom: 12 }} />
+                <div style={{ height: 12, width: "85%", borderRadius: 6, background: "rgba(35,31,32,0.08)" }} />
+              </div>
+            ))}
+          </div>
+        </Entrance>
+      ))}
+      <Entrance delay={26} y={30} style={{ position: "absolute", left: hx, top: 400, width: colW - 32 }}>
+        <div style={{ ...panel, borderRadius: 16, padding: "18px 22px", border: `2px solid ${C.primary}`, boxShadow: `0 24px 50px -16px ${C.glow}, 0 30px 60px -20px rgba(35,31,32,0.3)`, transform: `translateY(${float(frame, 3, 24)}px) rotate(${(frame > 50 && frame < 70) || (frame > 140 && frame < 180) ? -2 : 0}deg)` }}>
+          <div style={{ fontFamily: F.display, fontSize: 28, color: C.text }}>Pacote · Job Nivea</div>
+          <div style={{ fontFamily: F.body, fontSize: 21, color: C.textDim, marginTop: 6 }}>{colNow === 0 ? "Recebido, aguardando análise" : colNow === 1 ? "Planilha .xlsm e PDF anexados" : colNow === 2 ? "Cliente notificado por e-mail" : "Aprovado pelo cliente"}</div>
+        </div>
+      </Entrance>
+      <div style={{ position: "absolute", left: x0 + 2 * (colW + gap) + 16, top: 640, opacity: mail, transform: `scale(${mail})`, transformOrigin: "left center" }}>
+        <Chip color={C.primary}>✉ E-mail enviado ao cliente</Chip>
+      </div>
+      <div style={{ position: "absolute", left: x0 + 3 * (colW + gap) + 16, top: 520, opacity: appr, transform: `scale(${appr})`, transformOrigin: "left center" }}>
+        <Chip color={C.ok}>✓ Segue para a operação</Chip>
+      </div>
+    </Scene>
+  );
+};
+
+// ---------- 7. Operação ----------
+const MODS = [
+  ["Distribuição de Materiais", "Materiais por classe"],
+  ["Gestão de Romaneios", "Pedidos por romaneio"],
+  ["Operação de Coletas", "Da ordem ao recebimento"],
+  ["Agenda de Retiradas", "Baixa e assinatura"],
+  ["Operação de Descarte", "Laudo e acompanhamento"],
+  ["Transferência entre Bases", "Entre filiais"],
+  ["Alertas de Vencimento", "Antes de vencer"],
+  ["Roteirização", "Rotas e veículos"],
+];
+export const S7: React.FC = () => {
+  const frame = useCurrentFrame();
+  return (
+    <Scene>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 130, display: "flex", justifyContent: "center" }}>
+        <WordReveal text="Aprovado, a operação assume." delay={4} size={88} align="center" highlight={["operação"]} />
+      </div>
+      {MODS.map(([t, d], i) => {
+        const col = i % 4, row = Math.floor(i / 4);
         return (
-          <Entrance key={c} delay={24 + i * 4} y={50} style={{ position: "absolute", left: 150 + col * 330, top: 400 + row * 200, width: 300, height: 170 }}>
-            <div style={{ width: 300, height: 170, borderRadius: 24, background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", padding: 28, boxShadow: "0 20px 40px -16px rgba(35,31,32,0.3)", border: `1px solid ${C.line}`, transform: `translateY(${float(frame + i * 11, 4, 28)}px)` }}>
-              <Img src={staticFile(`logos/${c}.png`)} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+          <Entrance key={t} delay={34 + i * 16} y={40} style={{ position: "absolute", left: 130 + col * 420, top: 380 + row * 220, width: 390 }}>
+            <div style={{ ...panel, height: 190, borderRadius: 22, padding: "26px 28px", position: "relative", overflow: "hidden", transform: `translateY(${float(frame + i * 13, 4, 28)}px)` }}>
+              <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 8, background: `linear-gradient(180deg, ${C.primary}, ${C.primary2})` }} />
+              <div style={{ fontFamily: F.display, fontSize: 31, lineHeight: 1.15, color: C.text, marginLeft: 8 }}>{t}</div>
+              <div style={{ fontFamily: F.body, fontSize: 24, color: C.textDim, marginTop: 12, marginLeft: 8 }}>{d}</div>
             </div>
           </Entrance>
         );
       })}
-      <AbsoluteFill style={{ background: `rgba(35,31,32,${dim * 0.7})` }} />
-      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", opacity: modal * modalOut, transform: `scale(${interpolate(modal, [0, 1], [0.85, 1])})` }}>
-        <div style={{ ...panel, width: 620, padding: 48, textAlign: "center", boxShadow: "0 40px 100px rgba(35,31,32,0.45)" }}>
-          <div style={{ fontFamily: F.display, fontWeight: 700, fontSize: 38, color: C.text }}>Senha para LG</div>
-          <div style={{ margin: "32px 0", height: 74, borderRadius: 14, background: "#F0EEEC", border: `1px solid ${C.line}`, display: "flex", alignItems: "center", justifyContent: "center", columnGap: 16 }}>
-            {Array.from({ length: 6 }).map((_, k) => (
-              <div key={k} style={{ width: 18, height: 18, borderRadius: 9, background: k < dots ? C.text : "rgba(35,31,32,0.15)" }} />
-            ))}
-          </div>
-          <div style={{ height: 56, display: "flex", justifyContent: "center", alignItems: "center", transform: `scale(${ok})`, opacity: ok }}>
-            <Chip color={C.ok}>✓ Acesso liberado</Chip>
-          </div>
-        </div>
-      </AbsoluteFill>
     </Scene>
   );
 };
-
-// ---------- tabela compartilhada ----------
-const ROWS = [
-  { nf: "48213", base: "São Paulo", d: "12/09", pend: true },
-  { nf: "48217", base: "Campinas", d: "12/09", pend: true },
-  { nf: "48220", base: "Curitiba", d: "13/09", pend: false },
-  { nf: "48231", base: "Campinas", d: "14/09", pend: true },
-  { nf: "48236", base: "Recife", d: "14/09", pend: true },
-  { nf: "48244", base: "Campinas", d: "15/09", pend: true },
-  { nf: "48250", base: "Salvador", d: "15/09", pend: false },
-];
-const cols = "150px 1fr 140px 250px";
-
-const HeadRow: React.FC<{ c?: string }> = ({ c = cols }) => (
-  <div style={{ display: "grid", gridTemplateColumns: c, padding: "0 32px", height: 64, alignItems: "center", fontFamily: F.body, fontWeight: 600, fontSize: 20, letterSpacing: "0.12em", color: C.textDim, borderBottom: `1px solid ${C.line}` }}>
-    <span>NF</span><span>BASE / CIDADE</span><span>DATA</span><span>STATUS</span>
-  </div>
-);
-
-export const S4: React.FC = () => {
-  const frame = useCurrentFrame();
-  const scan = interpolate(frame, [60, 130], [0, 1], { ...clamp, easing: theme.ease.inOut });
-  const scanOn = frame >= 60 && frame <= 134;
-  return (
-    <Scene>
-      <div style={{ position: "absolute", left: 130, top: 300, width: 640 }}>
-        <Label>Leitura automática</Label>
-        <div style={{ marginTop: 18 }}>
-          <WordReveal text="Colunas e datas tratadas sozinhas." delay={6} size={70} highlight={["sozinhas."]} />
-        </div>
-        <Entrance delay={50} y={20}>
-          <div style={{ marginTop: 28, fontFamily: F.body, fontSize: 30, color: C.textDim }}>Planilhas .xlsx → pendências prontas.</div>
-        </Entrance>
-      </div>
-      <Entrance delay={4} x={80} y={0} style={{ position: "absolute", left: 840, top: 190, width: 960 }}>
-        <div style={{ ...panel, overflow: "hidden", position: "relative", transform: `translateY(${float(frame, 4)}px)` }}>
-          <HeadRow />
-          {ROWS.map((r, i) => {
-            const rowY = (i + 0.5) / ROWS.length;
-            const reveal = scan > rowY;
-            const e = useSpring(16 + i * 5, "snappy");
-            return (
-              <div key={r.nf} style={{ display: "grid", gridTemplateColumns: cols, padding: "0 32px", height: 78, alignItems: "center", fontFamily: F.body, fontSize: 28, color: C.text, opacity: e, transform: `translateX(${interpolate(e, [0, 1], [30, 0])}px)`, borderBottom: `1px solid ${C.line}`, background: reveal && r.pend ? `${C.primary}14` : "transparent" }}>
-                <span style={{ fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{r.nf}</span>
-                <span>{r.base}</span>
-                <span style={{ color: C.textDim }}>{r.d}</span>
-                <span style={{ opacity: reveal ? 1 : 0 }}>{r.pend ? <Chip color={C.primary}>Sem baixa</Chip> : <Chip color={C.ok}>Baixada</Chip>}</span>
-              </div>
-            );
-          })}
-          {scanOn && (
-            <div style={{ position: "absolute", left: 0, right: 0, top: 64 + scan * 78 * ROWS.length, height: 3, background: C.accent, boxShadow: `0 0 30px 6px ${C.accent}88` }} />
-          )}
-        </div>
-      </Entrance>
-    </Scene>
-  );
-};
-
-// ---------- 5. Filtro ----------
-export const S5: React.FC = () => {
-  const frame = useCurrentFrame();
-  const word = "Campinas";
-  const typed = word.slice(0, Math.floor(interpolate(frame, [26, 56], [0, word.length + 0.99], clamp)));
-  const press = interpolate(frame, [62, 66, 72], [1, 0.93, 1], clamp);
-  const f = interpolate(frame, [70, 92], [0, 1], { ...clamp, easing: theme.ease.inOut });
-  const pend = ROWS.filter((r) => r.pend);
-  return (
-    <Scene>
-      <div style={{ position: "absolute", left: 130, top: 270, width: 700 }}>
-        <Label>Filtros dinâmicos</Label>
-        <div style={{ marginTop: 18 }}>
-          <WordReveal text="Só o que exige ação." delay={6} size={80} highlight={["ação."]} />
-        </div>
-        <Entrance delay={20} y={24} style={{ marginTop: 44 }}>
-          <div style={{ ...panel, padding: 24, display: "flex", alignItems: "center", columnGap: 18, borderRadius: 20 }}>
-            <span style={{ fontFamily: F.body, fontSize: 26, color: C.textDim }}>Filtrar base:</span>
-            <div style={{ flex: 1, height: 58, borderRadius: 12, background: "#F0EEEC", display: "flex", alignItems: "center", padding: "0 18px", fontFamily: F.body, fontSize: 28, color: C.text }}>
-              {typed}
-              <span style={{ width: 2, height: 30, background: C.text, marginLeft: 3, opacity: Math.floor(frame / 8) % 2 }} />
-            </div>
-            <div style={{ padding: "14px 28px", borderRadius: 12, background: C.primary, color: "#fff", fontFamily: F.body, fontWeight: 600, fontSize: 26, transform: `scale(${press})` }}>Filtrar</div>
-          </div>
-        </Entrance>
-      </div>
-      <Entrance delay={6} x={80} y={0} style={{ position: "absolute", left: 900, top: 230, width: 900 }}>
-        <div style={{ ...panel, overflow: "hidden" }}>
-          <HeadRow c="130px 1fr 120px 230px" />
-          {ROWS.map((r, i) => {
-            const keep = r.base === word;
-            const k = keep ? 1 : 1 - f;
-            return (
-              <div key={r.nf} style={{ display: "grid", gridTemplateColumns: "130px 1fr 120px 230px", padding: "0 32px", height: 78 * k, overflow: "hidden", alignItems: "center", fontFamily: F.body, fontSize: 28, color: C.text, opacity: k, borderBottom: `1px solid ${C.line}`, background: keep && f > 0.9 ? `${C.primary}14` : "transparent" }}>
-                <span style={{ fontWeight: 600 }}>{r.nf}</span><span>{r.base}</span><span style={{ color: C.textDim }}>{r.d}</span>
-                <span>{r.pend ? <Chip color={C.primary}>Sem baixa</Chip> : <Chip color={C.ok}>Baixada</Chip>}</span>
-              </div>
-            );
-          })}
-        </div>
-        <Entrance delay={98} y={20} style={{ marginTop: 30 }}>
-          <div style={{ fontFamily: F.display, fontWeight: 700, fontSize: 44, color: C.text }}>
-            <Counter to={pend.filter((r) => r.base === word).length} delay={98} style={{ color: C.primary }} /> notas pendentes em Campinas
-          </div>
-        </Entrance>
-      </Entrance>
-    </Scene>
-  );
-};
-
-// ---------- 6. Envio ----------
-export const S6: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const lines = [
-    "Prezados, segue a relação de notas entregues sem baixa:",
-    "NF 48217 · 12/09",
-    "NF 48231 · 14/09",
-    "NF 48244 · 15/09",
-  ];
-  const press = interpolate(frame, [128, 132, 138], [1, 0.92, 1], clamp);
-  const fly = interpolate(frame, [142, 168], [0, 1], { ...clamp, easing: theme.ease.in });
-  const sent = useSpring(166, "bouncy");
-  return (
-    <Scene>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 80, display: "flex", justifyContent: "center" }}>
-        <Label>Envio automatizado</Label>
-      </div>
-      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-        <Entrance delay={6} y={60} style={{ width: 1160, transform: undefined }}>
-          <div style={{ ...panel, width: 1160, overflow: "hidden", transform: `translate(${fly * 900}px, ${-fly * 500}px) scale(${1 - fly * 0.5}) rotate(${fly * 8}deg)`, opacity: 1 - fly, filter: `blur(${fly * 6}px)` }}>
-            <div style={{ height: 56, background: "#F0EEEC", display: "flex", alignItems: "center", padding: "0 24px", columnGap: 10 }}>
-              {["#ff5f57", "#febc2e", "#28c840"].map((c) => <div key={c} style={{ width: 14, height: 14, borderRadius: 7, background: c }} />)}
-              <span style={{ marginLeft: 20, fontFamily: F.body, fontSize: 22, color: C.textDim }}>Nova mensagem — Outlook</span>
-            </div>
-            <div style={{ padding: "30px 44px", fontFamily: F.body, fontSize: 28, color: C.text }}>
-              <div style={{ color: C.textDim, marginBottom: 12 }}>Para: <span style={{ color: C.text }}>responsável da base Campinas</span></div>
-              <div style={{ color: C.textDim, paddingBottom: 18, borderBottom: `1px solid ${C.line}` }}>Assunto: <span style={{ color: C.text, fontWeight: 600 }}>[NF] Notas entregues sem baixa – Campinas</span></div>
-              <div style={{ marginTop: 24, minHeight: 190 }}>
-                {lines.map((l, i) => {
-                  const p = useSpring(26 + i * 14, "smooth");
-                  return <div key={i} style={{ opacity: p, transform: `translateY(${interpolate(p, [0, 1], [14, 0])}px)`, marginBottom: 12, color: i === 0 ? C.text : C.textDim, fontVariantNumeric: "tabular-nums" }}>{l}</div>;
-                })}
-              </div>
-              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
-                <div style={{ padding: "16px 40px", borderRadius: 14, background: C.primary, color: "#fff", fontWeight: 600, fontSize: 28, transform: `scale(${press * breathe(frame, 0.012)})`, boxShadow: `0 12px 30px ${C.glow}` }}>Confirmar Envio</div>
-              </div>
-            </div>
-          </div>
-        </Entrance>
-      </AbsoluteFill>
-      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-        <div style={{ opacity: sent, transform: `scale(${interpolate(sent, [0, 1], [0.5, 1])})`, textAlign: "center" }}>
-          <div style={{ width: 150, height: 150, borderRadius: 75, margin: "0 auto 28px", background: `${C.ok}22`, border: `3px solid ${C.ok}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 84, color: C.ok }}>✓</div>
-          <div style={{ fontFamily: F.display, fontWeight: 700, fontSize: 64, color: C.text }}>Solicitação enviada</div>
-        </div>
-      </AbsoluteFill>
-    </Scene>
-  );
-};
-
-// ---------- 7. Benefícios ----------
-export const S7: React.FC = () => (
-  <Scene>
-    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", rowGap: 22 }}>
-      <WordReveal text="Menos retrabalho." delay={4} size={130} align="center" />
-      <WordReveal text="Mais controle." delay={30} size={130} align="center" />
-      <WordReveal text="Mais prazo cumprido." delay={56} size={130} align="center" highlight={["prazo", "cumprido."]} />
-    </AbsoluteFill>
-  </Scene>
-);
 
 // ---------- 8. Encerramento ----------
 export const S8: React.FC = () => {

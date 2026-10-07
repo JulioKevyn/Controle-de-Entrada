@@ -2,13 +2,13 @@ import os, json, urllib.request, sys
 KEY = os.environ["ELEVEN_API_KEY"]
 VOICE = "EXAVITQu4vr4xnSDxMaL"  # Sarah
 LINES = {
- "s1": "Mundial Logistics apresenta: o sistema de solicitação de materiais e controle de pedidos.",
- "s2": "Dez clientes. Dezenas de planilhas. Cada uma com seu formato, suas colunas e suas datas.",
- "s3": "Agora, cada cliente tem seu próprio módulo, protegido por senha. Escolha a base e entre.",
- "s4": "O sistema lê as planilhas automaticamente, trata colunas e datas, e separa o que está pendente.",
- "s5": "Filtre por base ou cidade, e veja apenas o que precisa de ação.",
- "s6": "Com um clique, o Outlook dispara a solicitação para cada responsável, já com a lista de notas.",
- "s7": "Menos retrabalho. Mais controle. Mais prazo cumprido.",
+ "s1": "Mundial Logistics apresenta: o Sistema de Solicitação de Materiais.",
+ "s2": "Cada cliente envia sua planilha em um layout diferente. Conferir CNPJ, endereço e estoque manualmente toma tempo e abre espaço para erro.",
+ "s3": "Agora tudo começa no envio da planilha. Você escolhe a finalidade, o cliente, e o sistema reconhece o modelo sozinho.",
+ "s4": "Antes mesmo de enviar, a validação roda em segundo plano: Receita Federal, endereço, estoque e cadastro, tudo em tempo real.",
+ "s5": "Encontrou uma pendência? O sistema pergunta, você escolhe a correção, e ele revalida na hora.",
+ "s6": "Depois, o orçamento segue no quadro de acompanhamento, da elaboração até a aprovação do cliente.",
+ "s7": "Aprovado, a operação assume: distribuição, romaneios, coletas, retiradas e descarte, tudo no mesmo portal.",
  "s8": "Mundial Logistics. Fazendo marcas venderem mais.",
 }
 os.makedirs("public/audio", exist_ok=True)
