@@ -116,7 +116,6 @@ export const M3: React.FC = () => {
   ];
   const cols = V ? 2 : 3;
   const tw = V ? 460 : 520, th = V ? 330 : 330, gx = 28;
-  const ban = useSpring(228, "bouncy");
   return (
     <Scene>
       <Rings />
@@ -127,7 +126,6 @@ export const M3: React.FC = () => {
             <div key={t} style={{ width: tw, height: th }}><Tile i={i} at={at} t={t} icon={Ic[ic](frame, col)} col={col} /></div>
           ))}
         </div>
-        <div style={{ opacity: Math.min(1, ban), transform: `scale(${ban})` }}><Chip color={C.teal} size={32}>que você precisar</Chip></div>
       </Center>
     </Scene>
   );
@@ -141,7 +139,7 @@ const Slides: React.FC<{ srcs: string[]; w: number; h: number; every?: number }>
   return (
     <div style={{ width: w, height: h, position: "relative", overflow: "hidden", background: "#000" }}>
       {srcs.map((s, i) => (
-        <Img key={s} src={staticFile(s)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: i === k ? 1 : 0, transform: `scale(${1 + 0.06 * (i === k ? local : 0)})` }} />
+        <Img key={s} src={staticFile(s)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: i === k ? 1 : 0, transformOrigin: "50% 0%", transform: `scale(${1.12 + 0.05 * (i === k ? local : 0)})` }} />
       ))}
     </div>
   );
@@ -152,26 +150,26 @@ export const M4: React.FC = () => {
   const lap = useSpring(8, "bouncy");
   const ph = useSpring(75, "bouncy");
   const plats = [["Instagram", 131], ["Reels", 160], ["Stories", 183], ["YouTube", 210], ["Seu site", 227]] as const;
-  const LW = V ? 880 : 760, LH = LW * 0.5625;
-  const PW = V ? 330 : 320, PH = PW * 1.78;
+  const LW = V ? 820 : 760, LH = LW * 0.5625;
+  const PW = V ? 250 : 320, PH = PW * 1.78;
   return (
     <Scene>
       <Center gap={V ? 36 : 40}>
         <div style={{ fontFamily: F.display, fontWeight: 800, fontSize: V ? 60 : 64, color: C.text, textAlign: "center" }}>No <GradText>computador</GradText> e no <GradText>celular</GradText></div>
-        <div style={{ display: "flex", alignItems: "flex-end", columnGap: 40, flexDirection: V ? "column" : "row", rowGap: 30, alignItemsCenter: undefined } as React.CSSProperties}>
+        <div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 24, color: C.dim, marginTop: -20 }}>Exemplo: vídeo do Future PDV</div>
+        <div style={V ? { position: "relative", width: 940, height: LH + 230 } : { display: "flex", alignItems: "flex-end", columnGap: 40 }}>
           <div style={{ opacity: Math.min(1, lap), transform: `translateY(${interpolate(lap, [0, 1], [60, 0])}px)`, filter: `drop-shadow(0 30px 60px ${C.pink}55)` }}>
-            <div style={{ padding: 12, borderRadius: 18, background: "#1b1b24", border: `2px solid ${C.line}` }}><Slides srcs={["img/land_22.jpg", "img/land_66.jpg", "img/land_86.jpg", "img/land_112.jpg"]} w={LW} h={LH} /></div>
-            <div style={{ height: 14, background: "#2a2a36", borderRadius: "0 0 14px 14px", margin: "0 -30px" }} />
+            <div style={{ width: LW + 24, padding: 12, borderRadius: 18, background: "#1b1b24", border: `2px solid ${C.line}` }}><Slides srcs={["img/land_22.jpg", "img/land_66.jpg", "img/land_86.jpg", "img/land_112.jpg"]} w={LW} h={LH} /></div>
+            <div style={{ height: 14, background: "#2a2a36", borderRadius: "0 0 14px 14px", width: LW + 84, marginLeft: -30 }} />
           </div>
-          <div style={{ opacity: Math.min(1, ph), transform: `translateY(${interpolate(ph, [0, 1], [80, 0])}px) scale(${breathe(frame, 0.01)})`, filter: `drop-shadow(0 30px 60px ${C.teal}55)` }}>
+          <div style={{ ...(V ? { position: "absolute", right: 0, bottom: 0 } : {}), opacity: Math.min(1, ph), transform: `translateY(${interpolate(ph, [0, 1], [80, 0])}px) scale(${breathe(frame, 0.01)})`, filter: `drop-shadow(0 30px 60px ${C.teal}55)` }}>
             <div style={{ padding: 10, borderRadius: 40, background: "#1b1b24", border: `2px solid ${C.line}` }}><div style={{ borderRadius: 30, overflow: "hidden" }}><Slides srcs={["img/vert_5.jpg", "img/vert_9.jpg", "img/vert_12.jpg", "img/vert_15.jpg"]} w={PW} h={PH} every={50} /></div></div>
           </div>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 14, maxWidth: 900 }}>
           {plats.map(([n, at]) => <PlatChip key={n} n={n} at={at} />)}
         </div>
-        <div style={{ fontFamily: F.body, fontWeight: 600, fontSize: 24, color: C.dim }}>Exemplo: vídeo do Future PDV</div>
-      </Center>
+              </Center>
     </Scene>
   );
 };
