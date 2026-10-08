@@ -1,6 +1,6 @@
 # Plano completo de anúncios — Future PDV e Vídeos Motion
 
-**Orçamento:** R$ 50 para cada (R$ 100 no total) · **Canal:** Instagram e Facebook (Meta Ads)
+**Orçamento:** R$ 100 no total, **todo no Future PDV** (o anúncio dos vídeos motion ficou de fora por enquanto) · **Canal:** Instagram e Facebook (Meta Ads)
 **Objetivo:**
 - **Future PDV → cadastros no próprio site.** O sistema tem cadastro automático (página "Criar minha loja grátis", 7 dias grátis, sem cartão), então **o anúncio leva direto ao site**, sem passar pelo WhatsApp.
 - **Vídeos Motion → conversas no WhatsApp** (11) 96620-9914 (é um serviço vendido por orçamento).
@@ -8,26 +8,27 @@
 
 ---
 
-## 1. CALENDÁRIO (com datas)
+## 1. CALENDÁRIO (R$ 100 só no Future PDV)
+
+**Divisão do dinheiro:** R$ 50 na Fase 1 (teste A/B) + R$ 50 na Fase 2 (reforço no anúncio vencedor).
+Assim você não gasta metade do orçamento no anúncio mais fraco.
 
 | Quando | O que fazer |
 |---|---|
-| **Qui 08/10** | Criar/ajustar Página do Facebook e perfil **comercial** do Instagram. Instalar o **WhatsApp Business** e conectar à Página. Colocar foto, descrição e link no perfil. |
-| **Sex 09/10** | Subir os vídeos (celular) no Gerenciador. Criar as duas campanhas como **rascunho**. Configurar mensagem de boas-vindas e respostas rápidas (seção 6). |
-| **Sáb 10 e Dom 11/10** | Revisar textos, links do WhatsApp e preparar as respostas de atendimento. Fazer um clique de teste no seu próprio anúncio. |
-| **Seg 12/10 (feriado)** | **Não iniciar.** Enviar o Anúncio 1 para revisão à tarde (a Meta pode levar até 24 h para aprovar). |
-| **TER 13/10 → SÁB 17/10** | **FASE 1 — Future PDV.** R$ 10/dia × 5 dias = R$ 50. Agendar para começar às 00:00 de terça. |
-| **Qui 15/10 (noite)** | Primeira revisão (dia 3): pausar o anúncio mais fraco e passar o orçamento para o melhor. |
-| **Seg 19/10** | Enviar o Anúncio 2 (motion) para revisão. Resumo da Fase 1 (seção 7). |
-| **TER 20/10 → SÁB 24/10** | **FASE 2 — Vídeos Motion.** R$ 10/dia × 5 dias = R$ 50. |
-| **Qui 22/10 (noite)** | Revisão do dia 3 da Fase 2. |
-| **Seg 26 e Ter 27/10** | Análise final dos dois testes. Decidir o que repetir. |
-| **Qua 28/10 → Ter 03/11** | Se algum anúncio trouxe conversa útil: reinvestir o dinheiro que entrou nele (ou mais R$ 50). |
-| **Até 20/11** | Terminar os testes **antes da Black Friday (27/11)**: nesse período o custo de exibição sobe muito (seção 3). |
+| **Qui 08/10 a Dom 11/10** | Preparar Página, Instagram comercial, forma de pagamento (saldo por Pix) e subir os vídeos. Criar a campanha como rascunho. |
+| **Seg 12/10 (feriado)** | **Não iniciar.** Publicar o anúncio à tarde para a Meta revisar (até 24 h). |
+| **TER 13/10 → SÁB 17/10** | **FASE 1.** R$ 10/dia × 5 dias = **R$ 50**. Anúncio A (vídeo 24 s) contra anúncio B (vídeo 2min25). |
+| **Qui 15/10 (noite)** | Dia 3: pausar o anúncio com menos cliques/cadastros. |
+| **Dom 18 e Seg 19/10** | Análise da Fase 1: cliques, visualizações da página e **lojas novas no painel admin** por `pdv_out26_a` e `pdv_out26_b`. Preparar a Fase 2. |
+| **TER 20/10 → SÁB 24/10** | **FASE 2.** R$ 10/dia × 5 dias = **R$ 50**, só no anúncio vencedor, com um texto novo para testar (dor ou IA, o que perdeu na Fase 1). |
+| **Seg 26 e Ter 27/10** | Análise final e decisão. Se um cadastro virou cliente pagante (Básico R$ 100/mês), o teste já se pagou. |
+| **Até 20/11** | Terminar os testes **antes da Black Friday (27/11)**: o custo de exibição sobe muito. |
 
-**Por que terça a sábado?** Para dono de loja e de pequena empresa, o início da semana é quando estão no
-computador e no WhatsApp decidindo o mês. Terça e quarta costumam ser melhores; o sábado fecha o ciclo de 5 dias.
-**Por que começar em 13/10?** Fica antes da Black Friday e do Natal: o lojista está planejando o fim de ano agora.
+**Alternativa se preferir tudo de uma vez:** R$ 20/dia por 5 dias (13 a 17/10). Junta mais dados rápido, mas
+você perde a chance de reforçar só o vencedor.
+
+**Por que terça a sábado?** Para dono de loja, o início da semana é quando está decidindo o mês. **Por que 13/10?**
+Antes da Black Friday e do Natal: o lojista está planejando o fim de ano.
 
 ---
 
