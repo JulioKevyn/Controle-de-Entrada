@@ -1,6 +1,6 @@
 import os, json, sys, urllib.request
 KEY = os.environ["ELEVEN_API_KEY"]
-VOICE = "RGymW84CSmfVugnA5tvA"  # Roberta (pt-BR)
+VOICE = os.environ.get("VOICE_ID", "RGymW84CSmfVugnA5tvA")
 LINES = {
  "m1": "[confident] Você sabe quanto o seu mercado lucra em cada prateleira?",
  "m2": "[confident] Conheça o Future PDV, o caixa do seu mercado, rápido de verdade. Funciona no celular, no tablet e no computador.",
