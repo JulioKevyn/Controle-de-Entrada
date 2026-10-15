@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw, ImageFilter
 import numpy as np, io
 S=4
 orig=Image.open('linkedin/edicao/original2.png').convert('RGB')
-im=orig.resize((orig.width*S,orig.height*S),Image.LANCZOS); W,H=im.size
+im=Image.open('linkedin/edicao/original2_sr4x.png').convert('RGB'); W,H=im.size
 # quad da tela na foto original (168x300) -> escala S
 q=[(1.0,109.0),(105.8,107.4),(106.8,165.4),(8.4,177.2)]
 dst=[(x*S,y*S) for x,y in q]
