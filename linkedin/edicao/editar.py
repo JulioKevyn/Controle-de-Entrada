@@ -8,6 +8,15 @@ m=(np.asarray(mask.filter(ImageFilter.GaussianBlur(1.6))).astype(np.float32)/255
 ys,xs=np.mgrid[0:H,0:W]
 src=a[np.clip((ys+80).astype(int),0,H-1),np.clip((xs+8.5).astype(int),0,W-1)]
 a=a*(1-m)+src*m
+# 1b) remove os emojis (faca e coracao) acima do monitor, clonando o banner/duto a esquerda
+m2=Image.new('L',(W,H),0); ImageDraw.Draw(m2).polygon([(296,508),(362,505),(362,551),(300,553)],fill=255)
+m2=(np.asarray(m2.filter(ImageFilter.GaussianBlur(2.0))).astype(np.float32)/255.0)[...,None]
+src2=a[np.clip((ys+11.2).astype(int),0,H-1),np.clip((xs-68).astype(int),0,W-1)]
+a=a*(1-m2)+src2*m2
+m3=Image.new('L',(W,H),0); ImageDraw.Draw(m3).polygon([(307,548),(321,547),(321,558),(307,559)],fill=255)
+m3=(np.asarray(m3.filter(ImageFilter.GaussianBlur(1.4))).astype(np.float32)/255.0)[...,None]
+src3=a[np.clip(ys.astype(int),0,H-1),np.clip((xs+16).astype(int),0,W-1)]
+a=a*(1-m3)+src3*m3
 im=Image.fromarray(np.clip(a,0,255).astype(np.uint8))
 # 2) tela do Future PDV, com acabamento de foto de monitor
 dst=[(123,593),(541,553),(559,813),(139,828)]
@@ -45,5 +54,5 @@ img=Image.fromarray(np.clip(out,0,255).astype(np.uint8))
 # 3) recompressão (mesma "cara" de foto de celular)
 buf=io.BytesIO(); img.save(buf,'JPEG',quality=88); buf.seek(0); img=Image.open(buf).convert('RGB')
 img.save('linkedin/edicao/caixa-future-pdv.jpg',quality=92,subsampling=0)
-img.crop((60,500,640,880)).resize((1160,760)).save('/tmp/check_screen.png')
+img.crop((60,480,640,880)).resize((1160,800)).save('/tmp/check_screen.png')
 print(img.size)
