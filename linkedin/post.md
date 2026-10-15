@@ -18,9 +18,15 @@ Nenhuma reunião de requisitos me contaria o que eu vi ali:
 → Perdas e quebras acontecem todo dia e quase ninguém registra.
 → No fim do mês, o dono não sabe quanto lucra em cada prateleira.
 
-Foi assim que nasceu o Future PDV.
+Só que eu tinha uma escolha:
+fazer um sistema só para aquele mercado,
+ou aproveitar o trabalho que eu já ia ter e fazer algo maior.
 
-Ele serve para lojas de roupa, comércios em geral, e tem uma versão feita especialmente para mercados: venda por peso, validade por lote, fiado, controle de perdas e uma IA que responde perguntas sobre as vendas.
+Escolhi a segunda.
+
+Montei o Future PDV como uma plataforma, onde dá para cadastrar vários mercados, cada um com os seus dados separados, com banco de dados, backup e toda a estrutura por trás.
+
+Hoje ele serve para lojas de roupa e comércios em geral, e tem uma versão feita especialmente para mercados: venda por peso, validade por lote, fiado, controle de perdas e uma IA que responde perguntas sobre as vendas.
 
 O melhor código desse projeto começou longe do computador.
 
