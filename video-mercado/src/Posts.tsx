@@ -22,7 +22,7 @@ const Frame: React.FC<{ tag: string; title: React.ReactNode; children: React.Rea
 const card: React.CSSProperties = { background: "rgba(255,255,255,0.06)", border: "1.5px solid rgba(255,255,255,0.14)", borderRadius: 34, boxShadow: "0 40px 90px -30px rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" };
 
 export const Post1: React.FC = () => (
-  <Frame tag="Venda por peso" title={<>Do tomate ao pacote: <GradText>o preço certo, na hora</GradText></>}>
+  <Frame tag="Venda por peso" title={<>Tomate não é “1 unidade”. <GradText>É peso.</GradText></>}>
     <div style={{ ...card, width: 900, padding: 44 }}>
       <div style={{ fontFamily: F.body, fontWeight: 700, fontSize: 30, color: C.muted }}>Hortifruti · por quilo</div>
       <div style={{ fontFamily: F.display, fontWeight: 700, fontSize: 52, color: C.text, marginTop: 8 }}>Tomate italiano</div>
