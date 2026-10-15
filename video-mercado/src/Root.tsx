@@ -2,6 +2,7 @@ import React from "react";
 import { Composition } from "remotion";
 import { Main } from "./Main";
 import { Capa } from "./Capa";
+import { IlusA, IlusB, IlusC } from "./Ilus";
 import { Post1, Post2, Post3, Post4, Post5, Post6 } from "./Posts";
 import { FPS, TOTAL } from "./theme";
 
@@ -16,5 +17,8 @@ export const Root: React.FC = () => (
     <Composition id="Post4" component={Post4} durationInFrames={1} fps={30} width={1080} height={1350} />
     <Composition id="Post5" component={Post5} durationInFrames={1} fps={30} width={1080} height={1350} />
     <Composition id="Post6" component={Post6} durationInFrames={1} fps={30} width={1080} height={1350} />
+    <Composition id="IlusA" component={IlusA} durationInFrames={1} fps={30} width={1080} height={1350} />
+    <Composition id="IlusB" component={IlusB} durationInFrames={1} fps={30} width={1080} height={1350} />
+    <Composition id="IlusC" component={IlusC} durationInFrames={1} fps={30} width={1080} height={1350} />
   </>
 );
