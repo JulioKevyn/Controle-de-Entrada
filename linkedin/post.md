@@ -18,15 +18,25 @@ Nenhuma reunião de requisitos me contaria o que eu vi ali:
 → Perdas e quebras acontecem todo dia e quase ninguém registra.
 → No fim do mês, o dono não sabe quanto lucra em cada prateleira.
 
-Só que eu tinha uma escolha:
-fazer um sistema só para aquele mercado,
-ou aproveitar o trabalho que eu já ia ter e fazer algo maior.
+Esse projeto não nasceu agora.
+O Future PDV existe desde 2022, e estava guardado no fundo da gaveta.
 
-Escolhi a segunda.
+Quando decidi voltar a trabalhar nele, não quis chutar o que o varejo precisa. Fui descobrir na prática.
 
-Montei o Future PDV como uma plataforma, onde dá para cadastrar vários mercados, cada um com os seus dados separados, com banco de dados, backup e toda a estrutura por trás.
+Ele é uma plataforma de PDV para vários tipos de negócio: loja de roupa, comércio em geral e supermercado, cada um com os seus dados separados, banco de dados e backup. E o supermercado ganhou uma versão feita especialmente para ele: venda por peso, validade por lote, fiado e controle de perdas.
 
-Hoje ele serve para lojas de roupa e comércios em geral, e tem uma versão feita especialmente para mercados: venda por peso, validade por lote, fiado, controle de perdas e uma IA que responde perguntas sobre as vendas.
+E o que mais me orgulha: ele tem uma IA que conhece o mercado.
+
+O dono pergunta, em português, pelo sistema ou pelo WhatsApp:
+→ "O que eu preciso repor primeiro?"
+→ "Tem algo vencendo?"
+
+E ela responde com base nas vendas reais da loja. Ela também aponta os produtos parados há 30 dias e avisa quando o estoque está baixo.
+
+Tem mais: imagine o lojista no centro de São Paulo, indo comprar mercadoria, com R$ 100 no bolso.
+Ele informa o valor, e o sistema olha quanto ele paga em cada produto, vê o que está faltando na loja e monta a lista de compras.
+
+Não é IA por moda. É IA para o dono parar de decidir no escuro.
 
 O melhor código desse projeto começou longe do computador.
 
@@ -34,7 +44,7 @@ E você: qual foi a coisa mais valiosa que aprendeu ao sentir a dor do cliente a
 
 Conta nos comentários. Quero ler.
 
-#desenvolvimentodesoftware #empreendedorismo #produto #varejo #startups
+#desenvolvimentodesoftware #empreendedorismo #produto #varejo #inteligenciaartificial #startups
 
 --- PRIMEIRO COMENTÁRIO (publique logo após postar) ---
 Quer conhecer? 7 dias grátis, sem cartão: https://pdv-do-futuro.onrender.com/mercado
